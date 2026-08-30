@@ -12,9 +12,19 @@ const screenshotsUrls = app.screenshots.map(s => `${base}${s}`);
 ---
 
 <article class="app-card cyber-card" data-category={app.category}>
-  <!-- Card Top Header -->
+  <!-- Card Header (Desktop & Mobile Unified) -->
   <div class="card-header">
-    <div class="app-icon-wrapper">
+    <button
+      type="button"
+      class="app-icon-wrapper app-trigger-btn"
+      data-screenshot-trigger
+      data-app-name={app.name}
+      data-app-icon={iconUrl}
+      data-play-url={app.playStoreUrl}
+      data-screenshots={JSON.stringify(screenshotsUrls)}
+      data-start-index="0"
+      aria-label={`Ver capturas y detalles de ${app.name}`}
+    >
       <img
         src={iconUrl}
         alt={`Icono de ${app.name}`}
@@ -23,24 +33,24 @@ const screenshotsUrls = app.screenshots.map(s => `${base}${s}`);
         height="76"
         loading="lazy"
       />
-    </div>
+    </button>
 
     <div class="header-details">
       <div class="badges-row">
         <span class="badge badge-mint">{app.categoryLabel}</span>
-        {app.featured && <span class="badge badge-pink">★ Top App</span>}
+        {app.featured && <span class="badge badge-pink desktop-only">★ Top</span>}
       </div>
       <h3 class="app-name">{app.name}</h3>
       <div class="meta-row">
         <div class="rating-box" aria-label={`Puntuación ${app.rating} de 5 estrellas`}>
           <span class="star-icon">★</span>
           <span class="rating-value">{app.rating.toFixed(1)}</span>
-          {app.reviewsCount && <span class="reviews-count">({app.reviewsCount})</span>}
+          {app.reviewsCount && <span class="reviews-count desktop-only">({app.reviewsCount})</span>}
         </div>
-        <span class="meta-divider">•</span>
+        <span class="meta-divider desktop-only">•</span>
         <button
           type="button"
-          class="pkg-copy-btn"
+          class="pkg-copy-btn desktop-only"
           data-copy-text={app.id}
           title="Copiar Package ID de Android"
           aria-label="Copiar identificador de paquete"
@@ -55,13 +65,13 @@ const screenshotsUrls = app.screenshots.map(s => `${base}${s}`);
     </div>
   </div>
 
-  <!-- Tagline & Description -->
-  <p class="app-tagline">{app.tagline}</p>
-  <p class="app-description">{app.description}</p>
+  <!-- Desktop Details (Hidden on compact mobile 3-row view) -->
+  <p class="app-tagline desktop-only">{app.tagline}</p>
+  <p class="app-description desktop-only">{app.description}</p>
 
-  <!-- Features Highlight -->
-  <div class="features-list">
-    {app.features.map((feature) => (
+  <!-- Features Highlight (Desktop only) -->
+  <div class="features-list desktop-only">
+    {app.features.slice(0, 3).map((feature) => (
       <div class="feature-item">
         <span class="feature-bullet">▸</span>
         <span>{feature}</span>
@@ -69,10 +79,10 @@ const screenshotsUrls = app.screenshots.map(s => `${base}${s}`);
     ))}
   </div>
 
-  <!-- Screenshots preview strip -->
-  <div class="screenshots-preview-section">
+  <!-- Screenshots preview strip (Desktop only) -->
+  <div class="screenshots-preview-section desktop-only">
     <div class="preview-header">
-      <span class="preview-label">Capturas de Pantalla</span>
+      <span class="preview-label">Capturas</span>
       <button
         type="button"
         class="gallery-link"
@@ -83,12 +93,12 @@ const screenshotsUrls = app.screenshots.map(s => `${base}${s}`);
         data-screenshots={JSON.stringify(screenshotsUrls)}
         data-start-index="0"
       >
-        Ver galería ({app.screenshots.length}) →
+        Ver todas ({app.screenshots.length}) →
       </button>
     </div>
 
     <div class="screenshots-strip">
-      {screenshotsUrls.slice(0, 4).map((shot, index) => (
+      {screenshotsUrls.slice(0, 3).map((shot, index) => (
         <button
           type="button"
           class="shot-thumbnail-btn"
@@ -119,10 +129,10 @@ const screenshotsUrls = app.screenshots.map(s => `${base}${s}`);
       rel="noopener noreferrer"
       class="btn btn-mint play-cta"
     >
-      <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor">
+      <svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor">
         <path d="M3.609 1.814L13.793 12 3.61 22.186c-.36-.36-.61-.925-.61-1.637V3.451c0-.712.25-1.277.61-1.637zm11.305 9.066l2.124-2.124-9.923-5.73 7.799 7.854zm0 2.24l-7.799 7.854 9.923-5.73-2.124-2.124zm1.12-1.12l2.607 1.505c.789.456.789 1.198 0 1.654l-2.607 1.505-1.996-1.996 1.996-1.996z"/>
       </svg>
-      <span>Instalar en Google Play</span>
+      <span class="cta-label">Instalar</span>
     </a>
   </div>
 </article>
@@ -136,7 +146,7 @@ const screenshotsUrls = app.screenshots.map(s => `${base}${s}`);
       if (textToCopy) {
         navigator.clipboard.writeText(textToCopy).then(() => {
           const originalContent = btn.innerHTML;
-          btn.innerHTML = `<code>¡Copiado! ✓</code>`;
+          btn.innerHTML = `<code>Copiado! ✓</code>`;
           btn.style.borderColor = '#00f5b8';
           setTimeout(() => {
             btn.innerHTML = originalContent;
@@ -150,35 +160,46 @@ const screenshotsUrls = app.screenshots.map(s => `${base}${s}`);
 
 <style>
   .app-card {
-    padding: 1.75rem;
+    padding: 1.35rem;
     display: flex;
     flex-direction: column;
     height: 100%;
     position: relative;
-    border: 1.5px solid rgba(255, 255, 255, 0.08);
+    border: 1px solid var(--border-subtle);
+    background: #0d1424;
+    border-radius: var(--radius-md);
+    contain: content;
   }
 
   .card-header {
     display: flex;
-    gap: 1.1rem;
+    gap: 1rem;
     align-items: flex-start;
-    margin-bottom: 1.25rem;
+    margin-bottom: 1rem;
+  }
+
+  .app-trigger-btn {
+    padding: 0;
+    cursor: pointer;
+    border: none;
+    background: none;
+    text-align: left;
   }
 
   .app-icon-wrapper {
     flex-shrink: 0;
-    width: 76px;
-    height: 76px;
-    border-radius: var(--radius-md);
+    width: 68px;
+    height: 68px;
+    border-radius: var(--radius-sm);
     overflow: hidden;
     background: #090d18;
-    border: 1.5px solid rgba(0, 245, 184, 0.25);
-    box-shadow: 0 8px 18px rgba(0, 0, 0, 0.4);
-    transition: transform var(--transition-normal), border-color var(--transition-normal);
+    border: 1.5px solid rgba(0, 245, 184, 0.3);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
+    transition: transform var(--transition-fast), border-color var(--transition-fast);
   }
 
   .app-card:hover .app-icon-wrapper {
-    transform: scale(1.05);
+    transform: scale(1.04);
     border-color: var(--nhc-mint);
   }
 
@@ -191,18 +212,19 @@ const screenshotsUrls = app.screenshots.map(s => `${base}${s}`);
   .header-details {
     display: flex;
     flex-direction: column;
-    gap: 0.35rem;
+    gap: 0.25rem;
     min-width: 0;
+    flex: 1;
   }
 
   .badges-row {
     display: flex;
-    gap: 0.4rem;
+    gap: 0.35rem;
     flex-wrap: wrap;
   }
 
   .app-name {
-    font-size: 1.28rem;
+    font-size: 1.15rem;
     font-weight: 800;
     line-height: 1.2;
     color: #ffffff;
@@ -211,21 +233,22 @@ const screenshotsUrls = app.screenshots.map(s => `${base}${s}`);
   .meta-row {
     display: flex;
     align-items: center;
-    gap: 0.5rem;
-    font-size: 0.82rem;
+    gap: 0.4rem;
+    font-size: 0.8rem;
     flex-wrap: wrap;
   }
 
   .rating-box {
     display: inline-flex;
     align-items: center;
-    gap: 0.25rem;
+    gap: 0.2rem;
     font-weight: 800;
     color: #fbbf24;
   }
 
   .star-icon {
     color: #fbbf24;
+    font-size: 0.85rem;
   }
 
   .rating-value {
@@ -234,7 +257,7 @@ const screenshotsUrls = app.screenshots.map(s => `${base}${s}`);
 
   .reviews-count {
     color: var(--text-muted);
-    font-size: 0.75rem;
+    font-size: 0.72rem;
   }
 
   .meta-divider {
@@ -244,13 +267,13 @@ const screenshotsUrls = app.screenshots.map(s => `${base}${s}`);
   .pkg-copy-btn {
     display: inline-flex;
     align-items: center;
-    gap: 0.35rem;
+    gap: 0.3rem;
     background: rgba(255, 255, 255, 0.05);
     border: 1px solid var(--border-subtle);
     border-radius: 4px;
-    padding: 0.15rem 0.45rem;
+    padding: 0.1rem 0.35rem;
     color: var(--text-muted);
-    font-size: 0.72rem;
+    font-size: 0.7rem;
     cursor: pointer;
     transition: all var(--transition-fast);
   }
@@ -264,33 +287,33 @@ const screenshotsUrls = app.screenshots.map(s => `${base}${s}`);
   .app-tagline {
     font-weight: 700;
     color: var(--nhc-mint);
-    font-size: 0.95rem;
-    margin-bottom: 0.6rem;
+    font-size: 0.88rem;
+    margin-bottom: 0.4rem;
   }
 
   .app-description {
-    font-size: 0.88rem;
-    line-height: 1.55;
+    font-size: 0.82rem;
+    line-height: 1.5;
     color: var(--text-secondary);
-    margin-bottom: 1.25rem;
+    margin-bottom: 0.85rem;
   }
 
   .features-list {
     display: flex;
     flex-direction: column;
-    gap: 0.4rem;
-    margin-bottom: 1.5rem;
-    background: rgba(6, 9, 18, 0.5);
-    padding: 0.85rem 1rem;
+    gap: 0.3rem;
+    margin-bottom: 1rem;
+    background: rgba(6, 9, 18, 0.6);
+    padding: 0.65rem 0.8rem;
     border-radius: var(--radius-sm);
-    border: 1px solid rgba(0, 245, 184, 0.12);
+    border: 1px solid rgba(0, 245, 184, 0.1);
   }
 
   .feature-item {
     display: flex;
     align-items: center;
-    gap: 0.5rem;
-    font-size: 0.84rem;
+    gap: 0.4rem;
+    font-size: 0.78rem;
     color: #cbd5e1;
   }
 
@@ -301,29 +324,29 @@ const screenshotsUrls = app.screenshots.map(s => `${base}${s}`);
 
   .screenshots-preview-section {
     margin-top: auto;
-    margin-bottom: 1.5rem;
+    margin-bottom: 1rem;
   }
 
   .preview-header {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    margin-bottom: 0.6rem;
+    margin-bottom: 0.4rem;
   }
 
   .preview-label {
-    font-size: 0.78rem;
+    font-size: 0.72rem;
     font-weight: 700;
     color: var(--text-muted);
     text-transform: uppercase;
-    letter-spacing: 0.05em;
+    letter-spacing: 0.04em;
   }
 
   .gallery-link {
     background: none;
     border: none;
     color: var(--nhc-mint);
-    font-size: 0.82rem;
+    font-size: 0.76rem;
     font-weight: 700;
     cursor: pointer;
     padding: 0;
@@ -337,23 +360,22 @@ const screenshotsUrls = app.screenshots.map(s => `${base}${s}`);
 
   .screenshots-strip {
     display: grid;
-    grid-template-columns: repeat(4, 1fr);
-    gap: 0.5rem;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 0.4rem;
   }
 
   .shot-thumbnail-btn {
     background: #050811;
-    border: 1.5px solid rgba(255, 255, 255, 0.08);
+    border: 1px solid rgba(255, 255, 255, 0.08);
     border-radius: var(--radius-sm);
     padding: 0;
     cursor: pointer;
     overflow: hidden;
     aspect-ratio: 9 / 16;
-    transition: transform var(--transition-fast), border-color var(--transition-fast);
+    transition: transform var(--transition-fast);
   }
 
   .shot-thumbnail-btn:hover {
-    transform: translateY(-2px) scale(1.04);
     border-color: var(--nhc-pink);
   }
 
@@ -364,12 +386,108 @@ const screenshotsUrls = app.screenshots.map(s => `${base}${s}`);
   }
 
   .card-actions {
-    margin-top: 0.5rem;
+    margin-top: auto;
   }
 
   .play-cta {
     width: 100%;
-    padding: 0.85rem 1rem;
-    font-size: 0.95rem;
+    padding: 0.65rem 0.8rem;
+    font-size: 0.88rem;
+  }
+
+  /* Compact 3-Column Mobile Card Layout */
+  @media (max-width: 768px) {
+    .desktop-only {
+      display: none !important;
+    }
+
+    .app-card {
+      padding: 0.65rem 0.45rem;
+      text-align: center;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: space-between;
+      border-radius: var(--radius-sm);
+      gap: 0.35rem;
+    }
+
+    .card-header {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 0.4rem;
+      margin-bottom: 0;
+      width: 100%;
+    }
+
+    .app-icon-wrapper {
+      width: 52px;
+      height: 52px;
+      border-radius: 12px;
+      margin: 0 auto;
+    }
+
+    .header-details {
+      align-items: center;
+      width: 100%;
+      gap: 0.2rem;
+    }
+
+    .badges-row {
+      justify-content: center;
+    }
+
+    .badge {
+      font-size: 0.65rem;
+      padding: 0.15rem 0.45rem;
+    }
+
+    .app-name {
+      font-size: 0.82rem;
+      line-height: 1.15;
+      display: -webkit-box;
+      -webkit-line-clamp: 2;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
+      text-align: center;
+      min-height: 1.9rem;
+    }
+
+    .meta-row {
+      justify-content: center;
+      font-size: 0.72rem;
+    }
+
+    .rating-box {
+      font-size: 0.75rem;
+    }
+
+    .card-actions {
+      width: 100%;
+      margin-top: 0.25rem;
+    }
+
+    .play-cta {
+      padding: 0.4rem 0.45rem;
+      font-size: 0.75rem;
+      gap: 0.25rem;
+      border-radius: 6px;
+    }
+
+    .cta-label {
+      font-size: 0.72rem;
+    }
+  }
+
+  @media (max-width: 380px) {
+    .app-icon-wrapper {
+      width: 44px;
+      height: 44px;
+      border-radius: 10px;
+    }
+    .app-name {
+      font-size: 0.75rem;
+    }
   }
 </style>

@@ -17,7 +17,7 @@ const categories = [
       <span class="badge badge-mint">Catálogo Android</span>
       <h2 class="section-title">Nuestras Creaciones</h2>
       <p class="section-subtitle">
-        Aplicaciones y juegos nativos desarrollados para rendir al máximo en cualquier dispositivo Android. Sin publicidad intrusiva y con interfaces cuidadas.
+        Aplicaciones y utilidades nativas para Android. Toca cualquier app para ver capturas completas o instalar desde Google Play.
       </p>
 
       <!-- Category Filter Tabs -->
@@ -37,7 +37,7 @@ const categories = [
       </div>
     </div>
 
-    <!-- Apps Grid -->
+    <!-- Apps Grid (3 columns on mobile and desktop) -->
     <div class="apps-grid" id="apps-grid-container">
       {APPS.map((app) => (
         <div class="app-item-wrapper" data-app-category={app.category}>
@@ -71,7 +71,6 @@ const categories = [
         const cardCategory = card.dataset.appCategory;
         if (selectedCategory === 'todas' || cardCategory === selectedCategory) {
           card.style.display = 'block';
-          card.style.animation = 'fadeIn 0.25s ease forwards';
         } else {
           card.style.display = 'none';
         }
@@ -82,56 +81,56 @@ const categories = [
 
 <style>
   .apps-section {
-    padding: 5rem 0 6rem;
+    padding: 4rem 0 5rem;
     position: relative;
+    contain: content;
   }
 
   .section-header {
     text-align: center;
     max-width: 760px;
-    margin: 0 auto 3.5rem;
+    margin: 0 auto 2.5rem;
     display: flex;
     flex-direction: column;
     align-items: center;
-    gap: 0.85rem;
+    gap: 0.75rem;
   }
 
   .section-title {
-    font-size: clamp(2rem, 4vw, 2.8rem);
+    font-size: clamp(1.8rem, 4vw, 2.6rem);
     letter-spacing: -0.02em;
   }
 
   .section-subtitle {
-    font-size: 1.05rem;
+    font-size: 1rem;
     color: var(--text-secondary);
   }
 
   .category-filters {
     display: flex;
     flex-wrap: wrap;
-    gap: 0.65rem;
+    gap: 0.5rem;
     justify-content: center;
-    margin-top: 1.5rem;
+    margin-top: 1rem;
   }
 
   .filter-tab {
     display: inline-flex;
     align-items: center;
-    gap: 0.5rem;
-    padding: 0.6rem 1.2rem;
-    background: rgba(14, 21, 38, 0.7);
-    border: 1.5px solid rgba(255, 255, 255, 0.08);
+    gap: 0.4rem;
+    padding: 0.5rem 1rem;
+    background: #0d1424;
+    border: 1px solid var(--border-subtle);
     border-radius: var(--radius-full);
     color: var(--text-secondary);
     font-family: var(--font-heading);
-    font-size: 0.9rem;
+    font-size: 0.85rem;
     font-weight: 700;
     cursor: pointer;
     transition: all var(--transition-fast);
   }
 
   .filter-tab:hover {
-    background: rgba(20, 30, 55, 0.9);
     border-color: var(--nhc-mint);
     color: #ffffff;
   }
@@ -140,37 +139,57 @@ const categories = [
     background: var(--nhc-mint);
     color: #060913;
     border-color: var(--nhc-mint);
-    box-shadow: 0 4px 16px rgba(0, 245, 184, 0.35);
+    box-shadow: 0 2px 10px rgba(0, 245, 184, 0.3);
   }
 
   .tab-count {
     background: rgba(0, 0, 0, 0.25);
-    padding: 0.1rem 0.45rem;
+    padding: 0.08rem 0.4rem;
     border-radius: var(--radius-full);
-    font-size: 0.75rem;
+    font-size: 0.72rem;
     font-weight: 800;
   }
 
+  /* 3 Columns Grid on Desktop */
   .apps-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(360px, 1fr));
-    gap: 2.25rem;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1.5rem;
+    width: 100%;
   }
 
-  @keyframes fadeIn {
-    from {
-      opacity: 0;
-      transform: translateY(6px);
-    }
-    to {
-      opacity: 1;
-      transform: translateY(0);
-    }
+  .app-item-wrapper {
+    min-width: 0;
   }
 
+  /* Mobile: 3 Columns Grid (Cards in rows of 3) */
   @media (max-width: 768px) {
+    .apps-section {
+      padding: 2.5rem 0 3.5rem;
+    }
+
+    .section-header {
+      margin-bottom: 1.75rem;
+    }
+
     .apps-grid {
-      grid-template-columns: 1fr;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 0.5rem;
+    }
+
+    .category-filters {
+      gap: 0.35rem;
+    }
+
+    .filter-tab {
+      padding: 0.4rem 0.75rem;
+      font-size: 0.75rem;
+    }
+  }
+
+  @media (max-width: 380px) {
+    .apps-grid {
+      gap: 0.35rem;
     }
   }
 </style>
