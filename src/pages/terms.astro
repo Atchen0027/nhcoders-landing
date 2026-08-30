@@ -1,0 +1,136 @@
+---
+import Layout from '../layouts/Layout.astro';
+import { DEVELOPER_INFO } from '../data/apps';
+---
+
+<Layout
+  title={`Términos de Servicio | ${DEVELOPER_INFO.brandName}`}
+  description={`Términos y condiciones de uso para las aplicaciones de ${DEVELOPER_INFO.brandName}.`}
+>
+  <div class="legal-page-container container">
+    <div class="legal-card glass-panel">
+      <div class="legal-header">
+        <a href="/" class="back-link">← Volver al inicio</a>
+        <h1 class="legal-title">Términos y Condiciones de Uso</h1>
+        <p class="legal-subtitle">Última actualización: 30 de agosto de 2026</p>
+      </div>
+
+      <div class="legal-body">
+        <section class="legal-section">
+          <h2>1. Aceptación de los Términos</h2>
+          <p>
+            Al descargar, instalar o utilizar cualquiera de las aplicaciones móviles desarrolladas por <strong>{DEVELOPER_INFO.brandName}</strong>, aceptas quedar vinculado por estos Términos de Servicio. Si no estás de acuerdo con alguno de ellos, te rogamos que no utilices nuestras aplicaciones.
+          </p>
+        </section>
+
+        <section class="legal-section">
+          <h2>2. Licencia de Uso</h2>
+          <p>
+            {DEVELOPER_INFO.brandName} te otorga una licencia personal, no exclusiva, intransferible y revocable para utilizar nuestras aplicaciones con fines personales y no comerciales en tus dispositivos Android compatibles, de conformidad con las directrices de Google Play Store.
+          </p>
+        </section>
+
+        <section class="legal-section">
+          <h2>3. Propiedad Intelectual</h2>
+          <p>
+            Todos los derechos de propiedad intelectual, marcas, logotipos, código fuente, gráficos y contenidos presentes en las aplicaciones son propiedad exclusiva de {DEVELOPER_INFO.brandName} o de sus respectivos licenciantes.
+          </p>
+        </section>
+
+        <section class="legal-section">
+          <h2>4. Limitación de Responsabilidad</h2>
+          <p>
+            Nuestras aplicaciones se proporcionan "tal cual" y "según disponibilidad". En la máxima medida permitida por la ley aplicable, {DEVELOPER_INFO.brandName} no será responsable por ningún daño directo, indirecto, incidental o consecuente derivado del uso o la imposibilidad de uso de las aplicaciones.
+          </p>
+        </section>
+
+        <section class="legal-section">
+          <h2>5. Modificaciones</h2>
+          <p>
+            Nos reservamos el derecho de actualizar o modificar estos términos en cualquier momento. Las actualizaciones se publicarán en esta página web con la fecha de revisión correspondiente.
+          </p>
+        </section>
+
+        <section class="legal-section">
+          <h2>6. Contacto</h2>
+          <p>
+            Para consultas relacionadas con estos términos, contáctanos en: <a href={`mailto:${DEVELOPER_INFO.email}`}>{DEVELOPER_INFO.email}</a>.
+          </p>
+        </section>
+      </div>
+    </div>
+  </div>
+</Layout>
+
+<style>
+  .legal-page-container {
+    padding: 3rem 1.5rem 6rem;
+  }
+
+  .legal-card {
+    padding: 3.5rem;
+    max-width: 900px;
+    margin: 0 auto;
+  }
+
+  .legal-header {
+    margin-bottom: 2.5rem;
+    border-bottom: 1px solid var(--border-subtle);
+    padding-bottom: 1.5rem;
+  }
+
+  .back-link {
+    display: inline-block;
+    color: var(--accent-cyan);
+    font-size: 0.9rem;
+    font-weight: 600;
+    margin-bottom: 1.25rem;
+    transition: color var(--transition-fast);
+  }
+
+  .back-link:hover {
+    color: #ffffff;
+    text-decoration: underline;
+  }
+
+  .legal-title {
+    font-size: 2.4rem;
+    margin-bottom: 0.5rem;
+  }
+
+  .legal-subtitle {
+    font-size: 0.9rem;
+    color: var(--text-muted);
+  }
+
+  .legal-body {
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+  }
+
+  .legal-section h2 {
+    font-size: 1.3rem;
+    margin-bottom: 0.75rem;
+    color: #ffffff;
+  }
+
+  .legal-section p {
+    font-size: 0.98rem;
+    margin-bottom: 0.75rem;
+    line-height: 1.7;
+  }
+
+  .legal-section a {
+    color: var(--accent-cyan);
+  }
+
+  @media (max-width: 768px) {
+    .legal-card {
+      padding: 1.75rem;
+    }
+    .legal-title {
+      font-size: 1.8rem;
+    }
+  }
+</style>

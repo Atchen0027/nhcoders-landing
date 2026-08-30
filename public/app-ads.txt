@@ -1,0 +1,5 @@
+# app-ads.txt para NHCoders (Google AdMob Verification)
+# Documentación oficial de Google AdMob: https://support.google.com/admob/answer/9363762
+# 
+# Reemplaza 'pub-XXXXXXXXXXXXXXXX' con tu ID de editor de Google AdMob (ej: pub-1234567890123456)
+google.com, pub-XXXXXXXXXXXXXXXX, DIRECT, f08c47fec0942fa0

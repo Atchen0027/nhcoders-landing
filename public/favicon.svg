@@ -1,0 +1,30 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" fill="none">
+  <defs>
+    <linearGradient id="nhc-grad" x1="0" y1="0" x2="64" y2="64" gradientUnits="userSpaceOnUse">
+      <stop offset="0%" stop-color="#3b82f6"/>
+      <stop offset="50%" stop-color="#8b5cf6"/>
+      <stop offset="100%" stop-color="#06b6d4"/>
+    </linearGradient>
+    <linearGradient id="android-grad" x1="16" y1="16" x2="48" y2="48" gradientUnits="userSpaceOnUse">
+      <stop offset="0%" stop-color="#34d399"/>
+      <stop offset="100%" stop-color="#10b981"/>
+    </linearGradient>
+  </defs>
+  <!-- Background rounded squircle -->
+  <rect width="64" height="64" rx="16" fill="#0f172a"/>
+  <rect x="1" y="1" width="62" height="62" rx="15" stroke="url(#nhc-grad)" stroke-width="2" stroke-opacity="0.6"/>
+  
+  <!-- Modern NHCoders Android icon -->
+  <path d="M22 26C22 20.477 26.477 16 32 16C37.523 16 42 20.477 42 26V28H22V26Z" fill="url(#android-grad)"/>
+  <!-- Antennas -->
+  <line x1="25" y1="17" x2="21" y2="12" stroke="#34d399" stroke-width="2.5" stroke-linecap="round"/>
+  <line x1="39" y1="17" x2="43" y2="12" stroke="#34d399" stroke-width="2.5" stroke-linecap="round"/>
+  <!-- Eyes -->
+  <circle cx="27" cy="22" r="1.75" fill="#0f172a"/>
+  <circle cx="37" cy="22" r="1.75" fill="#0f172a"/>
+  <!-- Body/Code brackets -->
+  <rect x="22" y="31" width="20" height="15" rx="3" fill="#1e293b" stroke="url(#nhc-grad)" stroke-width="1.5"/>
+  <path d="M27 35L24.5 38.5L27 42" stroke="#38bdf8" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"/>
+  <path d="M37 35L39.5 38.5L37 42" stroke="#a78bfa" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"/>
+  <path d="M33 34.5L31 42.5" stroke="#94a3b8" stroke-width="1.5" stroke-linecap="round"/>
+</svg>

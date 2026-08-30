@@ -1,0 +1,168 @@
+---
+import Layout from '../layouts/Layout.astro';
+import { DEVELOPER_INFO } from '../data/apps';
+---
+
+<Layout
+  title={`Política de Privacidad | ${DEVELOPER_INFO.brandName}`}
+  description={`Política de Privacidad oficial para las aplicaciones Android desarrolladas por ${DEVELOPER_INFO.brandName}. Cumplimiento con Google Play y RGPD.`}
+>
+  <div class="legal-page-container container">
+    <div class="legal-card glass-panel">
+      <div class="legal-header">
+        <a href="/" class="back-link">← Volver al inicio</a>
+        <h1 class="legal-title">Política de Privacidad</h1>
+        <p class="legal-subtitle">Última actualización: 30 de agosto de 2026</p>
+      </div>
+
+      <div class="legal-body">
+        <section class="legal-section">
+          <h2>1. Introducción</h2>
+          <p>
+            En <strong>{DEVELOPER_INFO.brandName}</strong> (con sede en {DEVELOPER_INFO.location}), nos tomamos muy en serio la privacidad y la protección de los datos de los usuarios de nuestras aplicaciones móviles distribuidas a través de Google Play Store.
+          </p>
+          <p>
+            Esta Política de Privacidad describe cómo recopilamos, utilizamos, almacenamos y protegemos la información cuando utilizas cualquiera de nuestras aplicaciones Android (incluyendo <em>FitKiva</em>, <em>Control de Gastos Compartidos</em>, <em>Taekwondo Master Quiz</em>, <em>EbookPlayer</em>, <em>Aquí no hay quien duerma</em> y <em>Simple PDF Editor</em>).
+          </p>
+        </section>
+
+        <section class="legal-section">
+          <h2>2. Datos que Recopilamos</h2>
+          <p>
+            Nuestras aplicaciones están diseñadas bajo el principio de <strong>minimización de datos</strong>. La gran mayoría de los datos se procesan y almacenan exclusivamente de forma local en tu dispositivo móvil.
+          </p>
+          <ul>
+            <li><strong>Datos locales del usuario:</strong> Gastos, medidas de entrenamiento, preferencias, marcadores de libros y archivos editados se guardan localmente en la memoria privada de tu dispositivo. No tenemos acceso a dichos datos en ningún servidor externo.</li>
+            <li><strong>Identificadores de dispositivo y publicidad:</strong> Servicios de terceros como Google AdMob pueden recopilar identificadores de publicidad anonimizados (GAID / AAID) para servir anuncios pertinentes según la configuración de tu cuenta de Google.</li>
+            <li><strong>Datos analíticos y de rendimiento:</strong> Podemos utilizar Google Play Console Crashlytics para recibir informes de fallos y métricas anónimas de rendimiento (versión de Android, modelo de dispositivo) con el único fin de corregir errores y mejorar la estabilidad.</li>
+          </ul>
+        </section>
+
+        <section class="legal-section">
+          <h2>3. Publicidad y Monetización (Google AdMob)</h2>
+          <p>
+            Algunas de nuestras aplicaciones gratuitas pueden mostrar anuncios provistos por <strong>Google AdMob</strong>. Google puede utilizar cookies o identificadores móviles para mostrar publicidad personalizada o no personalizada de acuerdo con el consentimiento que otorgues a través del formulario de consentimiento CMP (Google UMP) en regiones reguladas como el Espacio Económico Europeo (EEE / RGPD).
+          </p>
+          <p>
+            Puedes revisar la política de privacidad de Google en: <a href="https://policies.google.com/privacy" target="_blank" rel="noopener noreferrer">https://policies.google.com/privacy</a>.
+          </p>
+        </section>
+
+        <section class="legal-section">
+          <h2>4. Permisos del Dispositivo</h2>
+          <p>
+            Nuestras aplicaciones solicitan únicamente los permisos estrictamente necesarios para su funcionamiento (por ejemplo, acceso a archivos locales para abrir PDFs o Ebooks, notificaciones si configuras recordatorios o conexión a internet para cargar anuncios/quiz).
+          </p>
+        </section>
+
+        <section class="legal-section">
+          <h2>5. Privacidad de los Menores</h2>
+          <p>
+            Nuestras aplicaciones no recopilan deliberadamente información de identificación personal de niños menores de 13 años. Si descubrimos que un menor de 13 años nos ha proporcionado información personal, la eliminamos de inmediato.
+          </p>
+        </section>
+
+        <section class="legal-section">
+          <h2>6. Contacto</h2>
+          <p>
+            Si tienes cualquier duda, pregunta o deseas ejercer tus derechos de acceso, rectificación o supresión, puedes ponerte en contacto con nosotros en:
+          </p>
+          <p class="contact-highlight">
+            <strong>Correo electrónico:</strong> <a href={`mailto:${DEVELOPER_INFO.email}`}>{DEVELOPER_INFO.email}</a><br />
+            <strong>Ubicación:</strong> {DEVELOPER_INFO.location}
+          </p>
+        </section>
+      </div>
+    </div>
+  </div>
+</Layout>
+
+<style>
+  .legal-page-container {
+    padding: 3rem 1.5rem 6rem;
+  }
+
+  .legal-card {
+    padding: 3.5rem;
+    max-width: 900px;
+    margin: 0 auto;
+  }
+
+  .legal-header {
+    margin-bottom: 2.5rem;
+    border-bottom: 1px solid var(--border-subtle);
+    padding-bottom: 1.5rem;
+  }
+
+  .back-link {
+    display: inline-block;
+    color: var(--accent-cyan);
+    font-size: 0.9rem;
+    font-weight: 600;
+    margin-bottom: 1.25rem;
+    transition: color var(--transition-fast);
+  }
+
+  .back-link:hover {
+    color: #ffffff;
+    text-decoration: underline;
+  }
+
+  .legal-title {
+    font-size: 2.4rem;
+    margin-bottom: 0.5rem;
+  }
+
+  .legal-subtitle {
+    font-size: 0.9rem;
+    color: var(--text-muted);
+  }
+
+  .legal-body {
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+  }
+
+  .legal-section h2 {
+    font-size: 1.3rem;
+    margin-bottom: 0.75rem;
+    color: #ffffff;
+  }
+
+  .legal-section p {
+    font-size: 0.98rem;
+    margin-bottom: 0.75rem;
+    line-height: 1.7;
+  }
+
+  .legal-section ul {
+    margin-left: 1.5rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    color: var(--text-secondary);
+    font-size: 0.95rem;
+  }
+
+  .contact-highlight {
+    background: rgba(8, 12, 20, 0.7);
+    padding: 1rem 1.25rem;
+    border-radius: var(--radius-sm);
+    border: 1px solid var(--border-subtle);
+    margin-top: 0.75rem;
+  }
+
+  .contact-highlight a {
+    color: var(--accent-cyan);
+  }
+
+  @media (max-width: 768px) {
+    .legal-card {
+      padding: 1.75rem;
+    }
+    .legal-title {
+      font-size: 1.8rem;
+    }
+  }
+</style>

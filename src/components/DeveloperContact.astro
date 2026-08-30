@@ -1,0 +1,358 @@
+---
+import { DEVELOPER_INFO } from '../data/apps';
+---
+
+<section id="contacto" class="contact-section">
+  <div class="container">
+    <div class="contact-layout">
+      <!-- Left side: Developer Information & Identity -->
+      <div class="developer-info-card cyber-card">
+        <span class="badge badge-mint">Soporte & Desarrollador</span>
+        <h2 class="contact-heading">¿Tienes sugerencias o necesitas soporte?</h2>
+        <p class="contact-intro">
+          En <strong>{DEVELOPER_INFO.brandName}</strong> estamos en constante evolución. Si has encontrado un bug, tienes una idea para mejorar alguna app o quieres proponer una colaboración, escríbenos directamente.
+        </p>
+
+        <div class="info-items-list">
+          <div class="info-item">
+            <div class="info-icon">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
+                <circle cx="12" cy="7" r="4"></circle>
+              </svg>
+            </div>
+            <div>
+              <span class="info-label">Estudio</span>
+              <strong class="info-val">{DEVELOPER_INFO.brandName} ({DEVELOPER_INFO.shortName})</strong>
+            </div>
+          </div>
+
+          <div class="info-item">
+            <div class="info-icon">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path>
+                <circle cx="12" cy="10" r="3"></circle>
+              </svg>
+            </div>
+            <div>
+              <span class="info-label">Ubicación</span>
+              <strong class="info-val">{DEVELOPER_INFO.location}</strong>
+            </div>
+          </div>
+
+          <div class="info-item">
+            <div class="info-icon">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path>
+                <polyline points="22,6 12,13 2,6"></polyline>
+              </svg>
+            </div>
+            <div>
+              <span class="info-label">Correo de Soporte</span>
+              <a href={`mailto:${DEVELOPER_INFO.email}`} class="info-val info-link">{DEVELOPER_INFO.email}</a>
+            </div>
+          </div>
+        </div>
+
+        <!-- Trust Badges -->
+        <div class="trust-grid">
+          <div class="trust-pill">
+            <span class="trust-icon">👾</span>
+            <span>Desarrollo 100% independiente</span>
+          </div>
+          <div class="trust-pill">
+            <span class="trust-icon">🔒</span>
+            <span>Respeto total por tu privacidad</span>
+          </div>
+          <div class="trust-pill">
+            <span class="trust-icon">⚡</span>
+            <span>Optimizado para Android 14/15/16</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Right side: Quick Direct Feedback / Working Form -->
+      <div class="contact-form-card cyber-card">
+        <h3 class="form-title">Envía un Mensaje al Equipo</h3>
+        <p class="form-subtitle">Llega directo a nuestra bandeja de entrada (<strong>{DEVELOPER_INFO.email}</strong>).</p>
+
+        <form id="developer-contact-form" class="contact-form" action={`https://formsubmit.co/${DEVELOPER_INFO.email}`} method="POST">
+          <!-- FormSubmit Configuration -->
+          <input type="hidden" name="_subject" value="Nuevo mensaje desde la Landing de Noobs Hard Coders" />
+          <input type="hidden" name="_captcha" value="false" />
+          <input type="hidden" name="_template" value="table" />
+
+          <div class="form-group">
+            <label for="name" class="form-label">Tu Nombre</label>
+            <input type="text" id="name" name="name" required class="form-input" placeholder="Ej: Carlos Gómez" />
+          </div>
+
+          <div class="form-group">
+            <label for="email" class="form-label">Tu Correo Electrónico</label>
+            <input type="email" id="email" name="email" required class="form-input" placeholder="tu-email@ejemplo.com" />
+          </div>
+
+          <div class="form-group">
+            <label for="appSelect" class="form-label">Aplicación o Consulta</label>
+            <select id="appSelect" name="app" class="form-input form-select">
+              <option value="General">Consulta General / Propuesta</option>
+              <option value="FitKiva">FitKiva</option>
+              <option value="Control de Gastos Compartidos">Control de Gastos Compartidos</option>
+              <option value="Taekwondo Master Quiz">Taekwondo Master Quiz</option>
+              <option value="EbookPlayer">EbookPlayer</option>
+              <option value="Aquí no hay quien duerma">Aquí no hay quien duerma</option>
+              <option value="Simple PDF Editor">Simple PDF Editor</option>
+            </select>
+          </div>
+
+          <div class="form-group">
+            <label for="message" class="form-label">Mensaje</label>
+            <textarea id="message" name="message" rows="4" required class="form-input" placeholder="Describe tu consulta, sugerencia o feedback..."></textarea>
+          </div>
+
+          <div id="form-feedback" class="form-feedback" style="display: none;"></div>
+
+          <button type="submit" id="form-submit-btn" class="btn btn-mint form-submit-btn">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+              <line x1="22" y1="2" x2="11" y2="13"></line>
+              <polygon points="22 2 15 22 11 13 2 9 22 2"></polygon>
+            </svg>
+            <span>Enviar Mensaje a {DEVELOPER_INFO.email}</span>
+          </button>
+        </form>
+      </div>
+    </div>
+  </div>
+</section>
+
+<script>
+  // Asynchronous Form Submission without leaving page
+  const form = document.getElementById('developer-contact-form') as HTMLFormElement | null;
+  const feedbackEl = document.getElementById('form-feedback');
+  const submitBtn = document.getElementById('form-submit-btn') as HTMLButtonElement | null;
+
+  if (form && feedbackEl && submitBtn) {
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      
+      const formData = new FormData(form);
+      const originalBtnHtml = submitBtn.innerHTML;
+
+      submitBtn.disabled = true;
+      submitBtn.innerHTML = `<span>Enviando mensaje... ⏳</span>`;
+      feedbackEl.style.display = 'none';
+
+      try {
+        const response = await fetch(form.action.replace('https://formsubmit.co/', 'https://formsubmit.co/ajax/'), {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            'Accept': 'application/json'
+          },
+          body: JSON.stringify(Object.fromEntries(formData.entries()))
+        });
+
+        if (response.ok) {
+          feedbackEl.className = 'form-feedback success';
+          feedbackEl.innerHTML = `✅ <strong>¡Mensaje enviado con éxito!</strong> Nos pondremos en contacto contigo lo antes posible.`;
+          feedbackEl.style.display = 'block';
+          form.reset();
+        } else {
+          throw new Error('Respuesta no exitosa');
+        }
+      } catch (err) {
+        // Fallback to regular form submission
+        feedbackEl.className = 'form-feedback success';
+        feedbackEl.innerHTML = `✅ <strong>¡Enviado!</strong> Si es la primera vez que recibes mensajes en FormSubmit, revisa tu correo para activar el formulario.`;
+        feedbackEl.style.display = 'block';
+        form.submit();
+      } finally {
+        submitBtn.disabled = false;
+        submitBtn.innerHTML = originalBtnHtml;
+      }
+    });
+  }
+</script>
+
+<style>
+  .contact-section {
+    padding: 2rem 0 6rem;
+  }
+
+  .contact-layout {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 2.5rem;
+  }
+
+  .developer-info-card, .contact-form-card {
+    padding: 2.5rem;
+    display: flex;
+    flex-direction: column;
+    border: 1.5px solid rgba(255, 255, 255, 0.08);
+  }
+
+  .contact-heading {
+    font-size: 1.8rem;
+    margin: 1rem 0 0.75rem;
+    line-height: 1.2;
+  }
+
+  .contact-intro {
+    font-size: 0.95rem;
+    margin-bottom: 2rem;
+  }
+
+  .contact-intro strong {
+    color: var(--nhc-mint);
+  }
+
+  .info-items-list {
+    display: flex;
+    flex-direction: column;
+    gap: 1.25rem;
+    margin-bottom: 2.5rem;
+  }
+
+  .info-item {
+    display: flex;
+    align-items: flex-start;
+    gap: 1rem;
+  }
+
+  .info-icon {
+    width: 42px;
+    height: 42px;
+    border-radius: var(--radius-sm);
+    background: rgba(0, 245, 184, 0.12);
+    border: 1px solid rgba(0, 245, 184, 0.25);
+    color: var(--nhc-mint);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+  }
+
+  .info-label {
+    display: block;
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: var(--text-muted);
+    font-weight: 700;
+  }
+
+  .info-val {
+    font-size: 0.95rem;
+    color: #ffffff;
+  }
+
+  .info-link {
+    color: var(--nhc-mint);
+    transition: color var(--transition-fast);
+  }
+
+  .info-link:hover {
+    color: #ffffff;
+    text-decoration: underline;
+  }
+
+  .trust-grid {
+    margin-top: auto;
+    display: flex;
+    flex-direction: column;
+    gap: 0.65rem;
+    padding-top: 1.5rem;
+    border-top: 1px solid var(--border-subtle);
+  }
+
+  .trust-pill {
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+    font-size: 0.85rem;
+    color: var(--text-secondary);
+  }
+
+  /* Form */
+  .form-title {
+    font-size: 1.45rem;
+    margin-bottom: 0.4rem;
+  }
+
+  .form-subtitle {
+    font-size: 0.9rem;
+    margin-bottom: 1.5rem;
+    color: var(--text-secondary);
+  }
+
+  .form-subtitle strong {
+    color: var(--nhc-mint);
+  }
+
+  .contact-form {
+    display: flex;
+    flex-direction: column;
+    gap: 1.15rem;
+  }
+
+  .form-group {
+    display: flex;
+    flex-direction: column;
+    gap: 0.4rem;
+  }
+
+  .form-label {
+    font-size: 0.82rem;
+    font-weight: 700;
+    color: var(--text-secondary);
+    font-family: var(--font-heading);
+  }
+
+  .form-input {
+    width: 100%;
+    padding: 0.75rem 1rem;
+    background: rgba(6, 9, 18, 0.85);
+    border: 1.5px solid rgba(255, 255, 255, 0.08);
+    border-radius: var(--radius-sm);
+    color: var(--text-primary);
+    font-family: var(--font-body);
+    font-size: 0.92rem;
+    transition: border-color var(--transition-fast), box-shadow var(--transition-fast);
+  }
+
+  .form-input:focus {
+    outline: none;
+    border-color: var(--nhc-mint);
+    box-shadow: 0 0 0 3px rgba(0, 245, 184, 0.2);
+  }
+
+  .form-select {
+    cursor: pointer;
+  }
+
+  .form-feedback {
+    padding: 0.85rem 1rem;
+    border-radius: var(--radius-sm);
+    font-size: 0.9rem;
+  }
+
+  .form-feedback.success {
+    background: rgba(0, 245, 184, 0.12);
+    border: 1px solid var(--nhc-mint);
+    color: #e2e8f0;
+  }
+
+  .form-submit-btn {
+    margin-top: 0.5rem;
+    width: 100%;
+    padding: 0.9rem;
+    font-size: 1rem;
+  }
+
+  @media (max-width: 860px) {
+    .contact-layout {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>

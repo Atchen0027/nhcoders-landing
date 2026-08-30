@@ -1,0 +1,327 @@
+---
+import { DEVELOPER_INFO } from '../data/apps';
+
+const admobSnippet = `google.com, ${DEVELOPER_INFO.admobPublisherId}, DIRECT, f08c47fec0942fa0`;
+---
+
+<section id="verificaciones" class="verification-section">
+  <div class="container">
+    <div class="verification-card glass-panel">
+      <div class="verification-header">
+        <div class="badge-row">
+          <span class="badge badge-android">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path>
+            </svg>
+            Verificación Oficial
+          </span>
+          <span class="badge badge-tag">IAB Tech Lab & Google AdMob</span>
+        </div>
+
+        <h2 class="verification-title">
+          Verificación de Desarrollador & <span class="text-gradient">app-ads.txt</span>
+        </h2>
+
+        <p class="verification-desc">
+          Esta landing page sirve como dominio oficial de desarrollador para la verificación de inventario publicitario de Google AdMob y la validación de enlaces profundos (Android Digital Asset Links).
+        </p>
+      </div>
+
+      <div class="verification-grid">
+        <!-- Panel 1: app-ads.txt Box -->
+        <div class="file-box">
+          <div class="file-box-header">
+            <div class="file-name-wrap">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
+                <polyline points="14 2 14 8 20 8"></polyline>
+                <line x1="16" y1="13" x2="8" y2="13"></line>
+                <line x1="16" y1="17" x2="8" y2="17"></line>
+                <polyline points="10 9 9 9 8 9"></polyline>
+              </svg>
+              <strong>/app-ads.txt</strong>
+            </div>
+
+            <div class="file-actions">
+              <a href="/app-ads.txt" target="_blank" class="file-link" title="Abrir archivo en nueva pestaña">
+                Abrir en vivo ↗
+              </a>
+              <button
+                type="button"
+                class="btn btn-secondary copy-snippet-btn"
+                data-copy-snippet={admobSnippet}
+              >
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
+                  <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
+                </svg>
+                <span>Copiar Registro</span>
+              </button>
+            </div>
+          </div>
+
+          <div class="code-container">
+            <pre class="code-block"><code>{admobSnippet}</code></pre>
+          </div>
+
+          <div class="file-status">
+            <span class="status-indicator"></span>
+            <span>Ubicación pública: <code>/app-ads.txt</code> (Raíz del dominio web)</span>
+          </div>
+        </div>
+
+        <!-- Panel 2: Checklist & Info -->
+        <div class="checklist-box">
+          <h3 class="checklist-title">Pasos para la Validación en AdMob</h3>
+          <ul class="steps-list">
+            <li class="step-item">
+              <span class="step-num">1</span>
+              <div>
+                <strong>Configura el sitio web en Google Play Console:</strong>
+                <p>En la ficha principal de la tienda de cada app, indica la URL de esta landing como sitio web del desarrollador.</p>
+              </div>
+            </li>
+            <li class="step-item">
+              <span class="step-num">2</span>
+              <div>
+                <strong>Introduce tu ID de editor de AdMob:</strong>
+                <p>Reemplaza <code>pub-XXXXXXXXXXXXXXXX</code> en <code>public/app-ads.txt</code> con tu código de editor.</p>
+              </div>
+            </li>
+            <li class="step-item">
+              <span class="step-num">3</span>
+              <div>
+                <strong>Detección automática del rastreador:</strong>
+                <p>Google rastreará tu archivo en 24 horas y mostrará el estado de autorización en verde en tu panel de AdMob.</p>
+              </div>
+            </li>
+          </ul>
+
+          <div class="extra-links">
+            <span class="extra-label">Otras verificaciones disponibles:</span>
+            <div class="extra-buttons">
+              <a href="/ads.txt" target="_blank" class="badge badge-tag">📄 /ads.txt</a>
+              <a href="/.well-known/assetlinks.json" target="_blank" class="badge badge-tag">🔗 /.well-known/assetlinks.json</a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<script>
+  // Copy snippet action
+  document.addEventListener('click', (e) => {
+    const btn = (e.target as HTMLElement).closest('.copy-snippet-btn') as HTMLElement | null;
+    if (btn) {
+      const text = btn.dataset.copySnippet;
+      if (text) {
+        navigator.clipboard.writeText(text).then(() => {
+          const span = btn.querySelector('span');
+          if (span) {
+            const prev = span.textContent;
+            span.textContent = '¡Copiado! ✓';
+            setTimeout(() => {
+              span.textContent = prev;
+            }, 1800);
+          }
+        });
+      }
+    }
+  });
+</script>
+
+<style>
+  .verification-section {
+    padding: 2rem 0 5rem;
+  }
+
+  .verification-card {
+    padding: 3rem 2.5rem;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .verification-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 350px;
+    height: 350px;
+    background: radial-gradient(circle, rgba(99, 102, 241, 0.15), transparent 70%);
+    pointer-events: none;
+  }
+
+  .verification-header {
+    max-width: 750px;
+    margin-bottom: 2.5rem;
+  }
+
+  .badge-row {
+    display: flex;
+    gap: 0.5rem;
+    margin-bottom: 1rem;
+    flex-wrap: wrap;
+  }
+
+  .verification-title {
+    font-size: clamp(1.6rem, 3vw, 2.2rem);
+    margin-bottom: 0.8rem;
+  }
+
+  .verification-desc {
+    font-size: 1rem;
+  }
+
+  .verification-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 2rem;
+  }
+
+  .file-box {
+    background: rgba(8, 12, 20, 0.85);
+    border: 1px solid var(--border-subtle);
+    border-radius: var(--radius-md);
+    padding: 1.5rem;
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+  }
+
+  .file-box-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 0.75rem;
+  }
+
+  .file-name-wrap {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    color: var(--accent-cyan);
+    font-family: var(--font-mono);
+    font-size: 0.95rem;
+  }
+
+  .file-actions {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+  }
+
+  .file-link {
+    font-size: 0.82rem;
+    color: var(--text-secondary);
+    transition: color var(--transition-fast);
+  }
+
+  .file-link:hover {
+    color: #ffffff;
+  }
+
+  .copy-snippet-btn {
+    padding: 0.4rem 0.85rem;
+    font-size: 0.8rem;
+  }
+
+  .code-container {
+    margin: 0.25rem 0;
+  }
+
+  .file-status {
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+    font-size: 0.8rem;
+    color: var(--text-muted);
+    margin-top: auto;
+  }
+
+  .status-indicator {
+    width: 8px;
+    height: 8px;
+    background-color: var(--accent-emerald);
+    border-radius: 50%;
+    box-shadow: 0 0 8px var(--accent-emerald);
+  }
+
+  /* Checklist */
+  .checklist-box {
+    background: rgba(14, 20, 36, 0.5);
+    border: 1px solid var(--border-subtle);
+    border-radius: var(--radius-md);
+    padding: 1.5rem;
+    display: flex;
+    flex-direction: column;
+    gap: 1.25rem;
+  }
+
+  .checklist-title {
+    font-size: 1.15rem;
+    color: var(--text-primary);
+  }
+
+  .steps-list {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+  }
+
+  .step-item {
+    display: flex;
+    align-items: flex-start;
+    gap: 0.85rem;
+  }
+
+  .step-num {
+    background: var(--accent-primary);
+    color: #ffffff;
+    font-size: 0.8rem;
+    font-weight: 700;
+    width: 24px;
+    height: 24px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    margin-top: 2px;
+  }
+
+  .step-item p {
+    font-size: 0.85rem;
+    margin-top: 0.2rem;
+  }
+
+  .extra-links {
+    margin-top: auto;
+    padding-top: 1rem;
+    border-top: 1px solid var(--border-subtle);
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+
+  .extra-label {
+    font-size: 0.78rem;
+    color: var(--text-muted);
+  }
+
+  .extra-buttons {
+    display: flex;
+    gap: 0.6rem;
+    flex-wrap: wrap;
+  }
+
+  @media (max-width: 860px) {
+    .verification-grid {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>

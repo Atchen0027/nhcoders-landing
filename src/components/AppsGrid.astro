@@ -1,0 +1,177 @@
+---
+import { APPS } from '../data/apps';
+import AppCard from './AppCard.astro';
+import ScreenshotModal from './ScreenshotModal.astro';
+
+const categories = [
+  { id: 'todas', label: 'Todas las Apps', count: APPS.length },
+  { id: 'productividad', label: 'Productividad & Utilidades', count: APPS.filter(a => a.category === 'productividad').length },
+  { id: 'salud', label: 'Salud & Fitness', count: APPS.filter(a => a.category === 'salud').length },
+  { id: 'educacion', label: 'Educación & Deportes', count: APPS.filter(a => a.category === 'educacion').length },
+  { id: 'ocio', label: 'Juegos & Ocio', count: APPS.filter(a => a.category === 'ocio').length },
+];
+---
+
+<section id="apps" class="apps-section">
+  <div class="container">
+    <div class="section-header">
+      <span class="badge badge-mint">Catálogo Android</span>
+      <h2 class="section-title">Nuestras Creaciones</h2>
+      <p class="section-subtitle">
+        Aplicaciones y juegos nativos desarrollados para rendir al máximo en cualquier dispositivo Android. Sin publicidad intrusiva y con interfaces cuidadas.
+      </p>
+
+      <!-- Category Filter Tabs -->
+      <div class="category-filters" role="tablist" aria-label="Filtrar aplicaciones por categoría">
+        {categories.map((cat, idx) => (
+          <button
+            type="button"
+            class={`filter-tab ${idx === 0 ? 'active' : ''}`}
+            data-filter={cat.id}
+            role="tab"
+            aria-selected={idx === 0 ? 'true' : 'false'}
+          >
+            <span>{cat.label}</span>
+            <span class="tab-count">{cat.count}</span>
+          </button>
+        ))}
+      </div>
+    </div>
+
+    <!-- Apps Grid -->
+    <div class="apps-grid" id="apps-grid-container">
+      {APPS.map((app) => (
+        <div class="app-item-wrapper" data-app-category={app.category}>
+          <AppCard app={app} />
+        </div>
+      ))}
+    </div>
+  </div>
+
+  <!-- Screenshot Lightbox Modal -->
+  <ScreenshotModal />
+</section>
+
+<script>
+  // Instant Category Filter
+  const filterButtons = document.querySelectorAll<HTMLButtonElement>('.filter-tab');
+  const appCards = document.querySelectorAll<HTMLElement>('.app-item-wrapper');
+
+  filterButtons.forEach((btn) => {
+    btn.addEventListener('click', () => {
+      filterButtons.forEach((b) => {
+        b.classList.remove('active');
+        b.setAttribute('aria-selected', 'false');
+      });
+      btn.classList.add('active');
+      btn.setAttribute('aria-selected', 'true');
+
+      const selectedCategory = btn.dataset.filter || 'todas';
+
+      appCards.forEach((card) => {
+        const cardCategory = card.dataset.appCategory;
+        if (selectedCategory === 'todas' || cardCategory === selectedCategory) {
+          card.style.display = 'block';
+          card.style.animation = 'fadeIn 0.25s ease forwards';
+        } else {
+          card.style.display = 'none';
+        }
+      });
+    });
+  });
+</script>
+
+<style>
+  .apps-section {
+    padding: 5rem 0 6rem;
+    position: relative;
+  }
+
+  .section-header {
+    text-align: center;
+    max-width: 760px;
+    margin: 0 auto 3.5rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.85rem;
+  }
+
+  .section-title {
+    font-size: clamp(2rem, 4vw, 2.8rem);
+    letter-spacing: -0.02em;
+  }
+
+  .section-subtitle {
+    font-size: 1.05rem;
+    color: var(--text-secondary);
+  }
+
+  .category-filters {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.65rem;
+    justify-content: center;
+    margin-top: 1.5rem;
+  }
+
+  .filter-tab {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.6rem 1.2rem;
+    background: rgba(14, 21, 38, 0.7);
+    border: 1.5px solid rgba(255, 255, 255, 0.08);
+    border-radius: var(--radius-full);
+    color: var(--text-secondary);
+    font-family: var(--font-heading);
+    font-size: 0.9rem;
+    font-weight: 700;
+    cursor: pointer;
+    transition: all var(--transition-fast);
+  }
+
+  .filter-tab:hover {
+    background: rgba(20, 30, 55, 0.9);
+    border-color: var(--nhc-mint);
+    color: #ffffff;
+  }
+
+  .filter-tab.active {
+    background: var(--nhc-mint);
+    color: #060913;
+    border-color: var(--nhc-mint);
+    box-shadow: 0 4px 16px rgba(0, 245, 184, 0.35);
+  }
+
+  .tab-count {
+    background: rgba(0, 0, 0, 0.25);
+    padding: 0.1rem 0.45rem;
+    border-radius: var(--radius-full);
+    font-size: 0.75rem;
+    font-weight: 800;
+  }
+
+  .apps-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(360px, 1fr));
+    gap: 2.25rem;
+  }
+
+  @keyframes fadeIn {
+    from {
+      opacity: 0;
+      transform: translateY(6px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  @media (max-width: 768px) {
+    .apps-grid {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>

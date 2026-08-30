@@ -1,0 +1,355 @@
+---
+// ScreenshotModal.astro - Native accessible modal using <dialog>
+---
+
+<dialog id="screenshot-dialog" class="screenshot-dialog" aria-labelledby="dialog-title">
+  <div class="dialog-backdrop" data-close-dialog></div>
+  <div class="dialog-content">
+    <header class="dialog-header">
+      <div class="dialog-title-wrap">
+        <img id="dialog-app-icon" src="" alt="" class="dialog-app-icon" width="32" height="32" />
+        <h3 id="dialog-title" class="dialog-title">Capturas de Pantalla</h3>
+      </div>
+      <button type="button" class="dialog-close-btn" data-close-dialog aria-label="Cerrar modal">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <line x1="18" y1="6" x2="6" y2="18"></line>
+          <line x1="6" y1="6" x2="18" y2="18"></line>
+        </svg>
+      </button>
+    </header>
+
+    <div class="dialog-body">
+      <div class="carousel-container">
+        <button type="button" class="carousel-btn prev-btn" id="dialog-prev" aria-label="Captura anterior">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <polyline points="15 18 9 12 15 6"></polyline>
+          </svg>
+        </button>
+
+        <div class="active-image-wrapper">
+          <img id="dialog-main-img" src="" alt="Captura de pantalla de la app" class="dialog-main-img" />
+          <div id="dialog-img-counter" class="dialog-counter">1 / 6</div>
+        </div>
+
+        <button type="button" class="carousel-btn next-btn" id="dialog-next" aria-label="Captura siguiente">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <polyline points="9 18 15 12 9 6"></polyline>
+          </svg>
+        </button>
+      </div>
+
+      <!-- Thumbnail bar -->
+      <div id="dialog-thumbnails" class="dialog-thumbnails"></div>
+    </div>
+
+    <footer class="dialog-footer">
+      <a id="dialog-playstore-link" href="#" target="_blank" rel="noopener noreferrer" class="btn btn-playstore">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor">
+          <path d="M3.609 1.814L13.793 12 3.61 22.186c-.36-.36-.61-.925-.61-1.637V3.451c0-.712.25-1.277.61-1.637zm11.305 9.066l2.124-2.124-9.923-5.73 7.799 7.854zm0 2.24l-7.799 7.854 9.923-5.73-2.124-2.124zm1.12-1.12l2.607 1.505c.789.456.789 1.198 0 1.654l-2.607 1.505-1.996-1.996 1.996-1.996z"/>
+        </svg>
+        Ver en Google Play Store
+      </a>
+    </footer>
+  </div>
+</dialog>
+
+<script>
+  // Lightweight native vanilla script for screenshot dialog
+  let currentScreenshots: string[] = [];
+  let currentIndex = 0;
+
+  const dialog = document.getElementById('screenshot-dialog') as HTMLDialogElement | null;
+  const titleEl = document.getElementById('dialog-title');
+  const iconEl = document.getElementById('dialog-app-icon') as HTMLImageElement | null;
+  const mainImgEl = document.getElementById('dialog-main-img') as HTMLImageElement | null;
+  const counterEl = document.getElementById('dialog-img-counter');
+  const thumbsContainer = document.getElementById('dialog-thumbnails');
+  const playstoreLinkEl = document.getElementById('dialog-playstore-link') as HTMLAnchorElement | null;
+  const prevBtn = document.getElementById('dialog-prev');
+  const nextBtn = document.getElementById('dialog-next');
+
+  function updateActiveImage(index: number) {
+    if (!currentScreenshots.length || !mainImgEl || !counterEl) return;
+    currentIndex = (index + currentScreenshots.length) % currentScreenshots.length;
+    mainImgEl.src = currentScreenshots[currentIndex];
+    counterEl.textContent = `${currentIndex + 1} / ${currentScreenshots.length}`;
+
+    // Update active thumb
+    if (thumbsContainer) {
+      const thumbs = thumbsContainer.querySelectorAll('.thumb-btn');
+      thumbs.forEach((t, i) => {
+        if (i === currentIndex) {
+          t.classList.add('active');
+        } else {
+          t.classList.remove('active');
+        }
+      });
+    }
+  }
+
+  function openDialog(appName: string, appIcon: string, playStoreUrl: string, screenshots: string[], startIndex = 0) {
+    if (!dialog) return;
+    currentScreenshots = screenshots;
+    if (titleEl) titleEl.textContent = `${appName} - Galería`;
+    if (iconEl) {
+      iconEl.src = appIcon;
+      iconEl.alt = appName;
+    }
+    if (playstoreLinkEl) playstoreLinkEl.href = playStoreUrl;
+
+    if (thumbsContainer) {
+      thumbsContainer.innerHTML = '';
+      screenshots.forEach((src, idx) => {
+        const btn = document.createElement('button');
+        btn.type = 'button';
+        btn.className = `thumb-btn ${idx === startIndex ? 'active' : ''}`;
+        btn.setAttribute('aria-label', `Ver captura ${idx + 1}`);
+        const img = document.createElement('img');
+        img.src = src;
+        img.alt = `Miniatura ${idx + 1}`;
+        btn.appendChild(img);
+        btn.addEventListener('click', () => updateActiveImage(idx));
+        thumbsContainer.appendChild(btn);
+      });
+    }
+
+    updateActiveImage(startIndex);
+    dialog.showModal();
+    document.body.style.overflow = 'hidden';
+  }
+
+  function closeDialog() {
+    if (dialog && dialog.open) {
+      dialog.close();
+      document.body.style.overflow = '';
+    }
+  }
+
+  // Bind trigger buttons
+  document.addEventListener('click', (e) => {
+    const target = e.target as HTMLElement;
+    const trigger = target.closest('[data-screenshot-trigger]') as HTMLElement | null;
+    if (trigger) {
+      const appName = trigger.dataset.appName || 'Aplicación';
+      const appIcon = trigger.dataset.appIcon || '';
+      const playStoreUrl = trigger.dataset.playUrl || '#';
+      const screensStr = trigger.dataset.screenshots || '[]';
+      const startIndex = parseInt(trigger.dataset.startIndex || '0', 10);
+      try {
+        const screens = JSON.parse(screensStr);
+        openDialog(appName, appIcon, playStoreUrl, screens, startIndex);
+      } catch (err) {
+        console.error('Error parsing screenshots json', err);
+      }
+    }
+
+    if (target.closest('[data-close-dialog]')) {
+      closeDialog();
+    }
+  });
+
+  prevBtn?.addEventListener('click', () => updateActiveImage(currentIndex - 1));
+  nextBtn?.addEventListener('click', () => updateActiveImage(currentIndex + 1));
+
+  // Keyboard navigation
+  window.addEventListener('keydown', (e) => {
+    if (!dialog || !dialog.open) return;
+    if (e.key === 'ArrowLeft') updateActiveImage(currentIndex - 1);
+    if (e.key === 'ArrowRight') updateActiveImage(currentIndex + 1);
+    if (e.key === 'Escape') closeDialog();
+  });
+</script>
+
+<style>
+  .screenshot-dialog {
+    margin: auto;
+    padding: 0;
+    background: transparent;
+    border: none;
+    max-width: 900px;
+    width: 95vw;
+    color: var(--text-primary);
+  }
+
+  .screenshot-dialog::backdrop {
+    background: rgba(4, 6, 12, 0.85);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+  }
+
+  .dialog-content {
+    background: #0f1629;
+    border: 1px solid var(--border-active);
+    border-radius: var(--radius-lg);
+    box-shadow: 0 25px 60px rgba(0, 0, 0, 0.7);
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    max-height: 90vh;
+  }
+
+  .dialog-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 1rem 1.5rem;
+    border-bottom: 1px solid var(--border-subtle);
+    background: rgba(255, 255, 255, 0.02);
+  }
+
+  .dialog-title-wrap {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+  }
+
+  .dialog-app-icon {
+    border-radius: var(--radius-sm);
+    box-shadow: 0 2px 6px rgba(0,0,0,0.4);
+  }
+
+  .dialog-title {
+    font-size: 1.15rem;
+    font-weight: 700;
+  }
+
+  .dialog-close-btn {
+    background: rgba(255, 255, 255, 0.06);
+    border: 1px solid var(--border-subtle);
+    color: var(--text-secondary);
+    width: 36px;
+    height: 36px;
+    border-radius: var(--radius-full);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: all var(--transition-fast);
+  }
+
+  .dialog-close-btn:hover {
+    background: rgba(255, 255, 255, 0.15);
+    color: #ffffff;
+  }
+
+  .dialog-body {
+    padding: 1.5rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1.25rem;
+    overflow-y: auto;
+  }
+
+  .carousel-container {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+  }
+
+  .active-image-wrapper {
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: var(--radius-md);
+    overflow: hidden;
+    background: #070a12;
+    border: 1px solid var(--border-subtle);
+    max-height: 520px;
+  }
+
+  .dialog-main-img {
+    max-height: 500px;
+    width: auto;
+    object-fit: contain;
+    border-radius: var(--radius-sm);
+    transition: opacity 0.2s ease-in-out;
+  }
+
+  .dialog-counter {
+    position: absolute;
+    bottom: 12px;
+    right: 12px;
+    background: rgba(0, 0, 0, 0.7);
+    backdrop-filter: blur(8px);
+    padding: 0.25rem 0.65rem;
+    border-radius: var(--radius-full);
+    font-size: 0.75rem;
+    font-weight: 600;
+    color: #ffffff;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+  }
+
+  .carousel-btn {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    z-index: 10;
+    background: rgba(15, 22, 41, 0.85);
+    border: 1px solid var(--border-subtle);
+    color: #ffffff;
+    width: 44px;
+    height: 44px;
+    border-radius: var(--radius-full);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    backdrop-filter: blur(8px);
+    transition: all var(--transition-fast);
+  }
+
+  .carousel-btn:hover {
+    background: var(--accent-primary);
+    border-color: var(--accent-cyan);
+    transform: translateY(-50%) scale(1.08);
+  }
+
+  .prev-btn { left: 10px; }
+  .next-btn { right: 10px; }
+
+  .dialog-thumbnails {
+    display: flex;
+    gap: 0.5rem;
+    overflow-x: auto;
+    max-width: 100%;
+    padding: 0.25rem 0;
+  }
+
+  :global(.thumb-btn) {
+    background: transparent;
+    border: 2px solid transparent;
+    border-radius: var(--radius-sm);
+    padding: 2px;
+    cursor: pointer;
+    width: 54px;
+    height: 76px;
+    overflow: hidden;
+    opacity: 0.5;
+    transition: all var(--transition-fast);
+  }
+
+  :global(.thumb-btn img) {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 4px;
+  }
+
+  :global(.thumb-btn.active) {
+    opacity: 1;
+    border-color: var(--accent-cyan);
+    transform: scale(1.05);
+  }
+
+  .dialog-footer {
+    display: flex;
+    justify-content: center;
+    padding: 1rem 1.5rem;
+    border-top: 1px solid var(--border-subtle);
+    background: rgba(255, 255, 255, 0.02);
+  }
+</style>
