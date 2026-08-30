@@ -130,13 +130,13 @@ export const APPS: AppItem[] = [
   {
     id: 'com.nhcoders.duermeenlacomunidad',
     name: 'Aquí no hay quien duerma',
-    tagline: 'El simulador cómico de comunidad vecinal y sonidos virales',
-    description: 'Divertidísima app de entretenimiento inspirada en la vida en comunidad: ruidos vecinales clásicos, retos cómicos y momentos inolvidables para disfrutar en grupo.',
-    category: 'ocio',
-    categoryLabel: 'Juegos & Ocio',
+    tagline: 'Generador de ruido blanco personalizado para ayudarte a dormir y descansar',
+    description: 'Aplicación diseñada para ayudarte a conciliar el sueño profundo y mejorar tu descanso. Personaliza capas de ruido blanco, sonidos relajantes y frecuencias ambientales para bloquear distracciones y dormir toda la noche sin interrupciones.',
+    category: 'salud',
+    categoryLabel: 'Salud & Sueño',
     rating: 4.8,
     reviewsCount: '+2.5K',
-    badges: ['Comedia', 'Sonidos', 'Diversión'],
+    badges: ['Ruido Blanco', 'Sueño & Relax', 'Descanso'],
     icon: '/apps/com.nhcoders.duermeenlacomunidad/icon.png',
     screenshots: [
       '/apps/com.nhcoders.duermeenlacomunidad/screenshots/screen_1.webp',
@@ -148,10 +148,10 @@ export const APPS: AppItem[] = [
     ],
     playStoreUrl: 'https://play.google.com/store/apps/details?id=com.nhcoders.duermeenlacomunidad',
     features: [
-      'Botonera con más de 50 efectos sonoros hilarantes',
-      'Modos de juego interactivos y retos de sigilo',
-      'Efectos en bucle y temporizador de bromas',
-      'Diseño retro y ligero'
+      'Generador de ruido blanco, rosa y marrón personalizable',
+      'Mezclador de capas de sonidos ambientales relajantes',
+      'Temporizador de apagado progresivo inteligente',
+      'Reproducción en segundo plano y modo sin conexión'
     ]
   },
   {

@@ -6,10 +6,9 @@ import ScreenshotModal from './ScreenshotModal.astro';
 const categories = [
   { id: 'todas', label: 'Todas las Apps', count: APPS.length },
   { id: 'productividad', label: 'Productividad & Utilidades', count: APPS.filter(a => a.category === 'productividad').length },
-  { id: 'salud', label: 'Salud & Fitness', count: APPS.filter(a => a.category === 'salud').length },
+  { id: 'salud', label: 'Salud, Bienestar & Sueño', count: APPS.filter(a => a.category === 'salud').length },
   { id: 'educacion', label: 'Educación & Deportes', count: APPS.filter(a => a.category === 'educacion').length },
-  { id: 'ocio', label: 'Juegos & Ocio', count: APPS.filter(a => a.category === 'ocio').length },
-];
+].filter(c => c.count > 0);
 ---
 
 <section id="apps" class="apps-section">
