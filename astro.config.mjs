@@ -4,8 +4,8 @@ import { defineConfig } from 'astro/config';
 // https://astro.build/config
 export default defineConfig({
   output: 'static',
-  // Configura 'site' con tu URL de GitHub Pages (ej: https://usuario.github.io/repositorio o dominio personalizado)
-  site: 'https://nhcoders.github.io',
+  site: 'https://atchen0027.github.io',
+  base: '/nhcoders-landing',
   build: {
     format: 'directory'
   }

@@ -1,6 +1,7 @@
 ---
 import Layout from '../layouts/Layout.astro';
 import { DEVELOPER_INFO } from '../data/apps';
+const base = import.meta.env.BASE_URL.replace(/\/$/, '');
 ---
 
 <Layout
@@ -10,7 +11,7 @@ import { DEVELOPER_INFO } from '../data/apps';
   <div class="legal-page-container container">
     <div class="legal-card glass-panel">
       <div class="legal-header">
-        <a href="/" class="back-link">← Volver al inicio</a>
+        <a href={`${base}/`} class="back-link">← Volver al inicio</a>
         <h1 class="legal-title">Política de Privacidad</h1>
         <p class="legal-subtitle">Última actualización: 30 de agosto de 2026</p>
       </div>

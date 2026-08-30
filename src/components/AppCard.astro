@@ -6,6 +6,9 @@ interface Props {
 }
 
 const { app } = Astro.props;
+const base = import.meta.env.BASE_URL.replace(/\/$/, '');
+const iconUrl = `${base}${app.icon}`;
+const screenshotsUrls = app.screenshots.map(s => `${base}${s}`);
 ---
 
 <article class="app-card cyber-card" data-category={app.category}>
@@ -13,7 +16,7 @@ const { app } = Astro.props;
   <div class="card-header">
     <div class="app-icon-wrapper">
       <img
-        src={app.icon}
+        src={iconUrl}
         alt={`Icono de ${app.name}`}
         class="app-icon"
         width="76"
@@ -75,9 +78,9 @@ const { app } = Astro.props;
         class="gallery-link"
         data-screenshot-trigger
         data-app-name={app.name}
-        data-app-icon={app.icon}
+        data-app-icon={iconUrl}
         data-play-url={app.playStoreUrl}
-        data-screenshots={JSON.stringify(app.screenshots)}
+        data-screenshots={JSON.stringify(screenshotsUrls)}
         data-start-index="0"
       >
         Ver galería ({app.screenshots.length}) →
@@ -85,15 +88,15 @@ const { app } = Astro.props;
     </div>
 
     <div class="screenshots-strip">
-      {app.screenshots.slice(0, 4).map((shot, index) => (
+      {screenshotsUrls.slice(0, 4).map((shot, index) => (
         <button
           type="button"
           class="shot-thumbnail-btn"
           data-screenshot-trigger
           data-app-name={app.name}
-          data-app-icon={app.icon}
+          data-app-icon={iconUrl}
           data-play-url={app.playStoreUrl}
-          data-screenshots={JSON.stringify(app.screenshots)}
+          data-screenshots={JSON.stringify(screenshotsUrls)}
           data-start-index={index}
           aria-label={`Ver captura de pantalla ${index + 1} de ${app.name}`}
         >

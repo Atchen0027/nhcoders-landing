@@ -8,13 +8,15 @@ interface Props {
   ogImage?: string;
 }
 
+const base = import.meta.env.BASE_URL.replace(/\/$/, '');
+
 const {
   title = `${DEVELOPER_INFO.brandName} | Android Apps & Games Studio`,
   description = `${DEVELOPER_INFO.brandName} (${DEVELOPER_INFO.shortName}) - Estudio indie de aplicaciones y juegos Android. Explora nuestro catálogo en Google Play, capturas, soporte y novedades.`,
-  ogImage = '/logo.png'
+  ogImage = `${base}/logo.png`
 } = Astro.props;
 
-const canonicalURL = new URL(Astro.url.pathname, Astro.site || 'https://nhcoders.github.io');
+const canonicalURL = new URL(Astro.url.pathname, Astro.site || 'https://atchen0027.github.io');
 ---
 
 <!doctype html>
@@ -22,7 +24,7 @@ const canonicalURL = new URL(Astro.url.pathname, Astro.site || 'https://nhcoders
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link rel="icon" type="image/png" href="/favicon.png" />
+    <link rel="icon" type="image/png" href={`${base}/favicon.png`} />
     <meta name="generator" content={Astro.generator} />
 
     <!-- SEO Primary Meta Tags -->
@@ -55,7 +57,7 @@ const canonicalURL = new URL(Astro.url.pathname, Astro.site || 'https://nhcoders
       "alternateName": DEVELOPER_INFO.shortName,
       "legalName": DEVELOPER_INFO.legalName,
       "url": canonicalURL.origin,
-      "logo": new URL("/logo.png", canonicalURL).href,
+      "logo": new URL(`${base}/logo.png`, canonicalURL).href,
       "address": {
         "@type": "PostalAddress",
         "addressLocality": "Santa Cruz de Tenerife",
@@ -71,9 +73,9 @@ const canonicalURL = new URL(Astro.url.pathname, Astro.site || 'https://nhcoders
     <!-- Top Navigation Header -->
     <header class="site-header">
       <div class="container nav-container">
-        <a href="/" class="brand-logo" aria-label="Ir al inicio de Noobs Hard Coders">
+        <a href={`${base}/`} class="brand-logo" aria-label="Ir al inicio de Noobs Hard Coders">
           <img
-            src="/logo.png"
+            src={`${base}/logo.png`}
             alt="Logo Noobs Hard Coders"
             class="header-logo-img"
             width="140"
@@ -83,9 +85,9 @@ const canonicalURL = new URL(Astro.url.pathname, Astro.site || 'https://nhcoders
 
         <nav class="main-nav" aria-label="Navegación principal">
           <ul class="nav-links">
-            <li><a href="/#apps" class="nav-link">Apps & Juegos</a></li>
-            <li><a href="/#contacto" class="nav-link">Contacto & Soporte</a></li>
-            <li><a href="/privacy" class="nav-link">Privacidad</a></li>
+            <li><a href={`${base}/#apps`} class="nav-link">Apps & Juegos</a></li>
+            <li><a href={`${base}/#contacto`} class="nav-link">Contacto & Soporte</a></li>
+            <li><a href={`${base}/privacy`} class="nav-link">Privacidad</a></li>
           </ul>
         </nav>
 
@@ -118,7 +120,7 @@ const canonicalURL = new URL(Astro.url.pathname, Astro.site || 'https://nhcoders
           <div class="footer-col">
             <div class="footer-brand">
               <img
-                src="/logo.png"
+                src={`${base}/logo.png`}
                 alt="Noobs Hard Coders"
                 class="footer-logo-img"
                 width="160"
@@ -139,8 +141,8 @@ const canonicalURL = new URL(Astro.url.pathname, Astro.site || 'https://nhcoders
           <div class="footer-col">
             <h4 class="footer-heading">Navegación</h4>
             <ul class="footer-links">
-              <li><a href="/#apps">Catálogo de Apps</a></li>
-              <li><a href="/#contacto">Soporte & Contacto</a></li>
+              <li><a href={`${base}/#apps`}>Catálogo de Apps</a></li>
+              <li><a href={`${base}/#contacto`}>Soporte & Contacto</a></li>
               <li><a href={DEVELOPER_INFO.playStoreDeveloperUrl} target="_blank" rel="noopener noreferrer">Ficha de Desarrollador</a></li>
             </ul>
           </div>
@@ -149,8 +151,8 @@ const canonicalURL = new URL(Astro.url.pathname, Astro.site || 'https://nhcoders
           <div class="footer-col">
             <h4 class="footer-heading">Legal & Privacidad</h4>
             <ul class="footer-links">
-              <li><a href="/privacy">Política de Privacidad</a></li>
-              <li><a href="/terms">Términos de Uso</a></li>
+              <li><a href={`${base}/privacy`}>Política de Privacidad</a></li>
+              <li><a href={`${base}/terms`}>Términos de Uso</a></li>
             </ul>
           </div>
         </div>
