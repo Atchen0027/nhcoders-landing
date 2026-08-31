@@ -1,15 +1,32 @@
 ---
 import Layout from '../layouts/Layout.astro';
 import Hero from '../components/Hero.astro';
+import ServicesSection from '../components/ServicesSection.astro';
 import AppsGrid from '../components/AppsGrid.astro';
+import WebProjectsSection from '../components/WebProjectsSection.astro';
+import AboutSection from '../components/AboutSection.astro';
 import DeveloperContact from '../components/DeveloperContact.astro';
 ---
 
 <Layout
-  title="Noobs Hard Coders | Android Apps & Games Studio"
-  description="Landing oficial de Noobs Hard Coders (NHCoders): descubre nuestro catálogo de aplicaciones y juegos Android en Google Play Store, capturas, soporte y novedades."
+  title="AtchenDev | Desarrollo Web & Apps Android (Noobs Hard Coders)"
+  description="Portfolio oficial de Atchen Valladares (AtchenDev): servicios de desarrollo web moderno (Astro, Next.js, React), catálogo de apps Android en Google Play de Noobs Hard Coders y proyectos a medida."
 >
+  <!-- 1. Web Development Hero & Intro -->
   <Hero />
+
+  <!-- 2. Web Development Services & Digital Solutions -->
+  <ServicesSection />
+
+  <!-- 3. Dedicated Android Studio (Noobs Hard Coders) -->
   <AppsGrid />
+
+  <!-- 4. Web Development Portfolio & Demos -->
+  <WebProjectsSection />
+
+  <!-- 5. About Atchen Valladares & Certifications -->
+  <AboutSection />
+
+  <!-- 6. Unified Contact & Quotes -->
   <DeveloperContact />
 </Layout>

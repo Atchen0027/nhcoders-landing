@@ -1,0 +1,402 @@
+---
+import { CERTIFICATES } from '../data/webProjects';
+const base = import.meta.env.BASE_URL.replace(/\/$/, '');
+
+const skills = [
+  { name: 'Android / Kotlin Nativas', cat: 'mobile' },
+  { name: 'Astro Framework (98+ Score)', cat: 'frontend' },
+  { name: 'Next.js 15 & React', cat: 'frontend' },
+  { name: 'TypeScript & JavaScript ES6+', cat: 'frontend' },
+  { name: 'WordPress & WooCommerce', cat: 'cms' },
+  { name: 'Sistemas ERP & Reservas Online', cat: 'fullstack' },
+  { name: 'Google Play Console & AdMob', cat: 'mobile' },
+  { name: 'SEO Técnico & Schema.org', cat: 'marketing' },
+  { name: 'Tailwind CSS & Modern UI', cat: 'design' },
+  { name: 'Git, GitHub Actions & CI/CD', cat: 'tools' }
+];
+---
+
+<section id="sobre-mi" class="about-section">
+  <div class="container">
+    <div class="about-card cyber-card reveal-on-scroll">
+      <div class="about-layout">
+        <!-- Left: Bio & Skills -->
+        <div class="about-info">
+          <span class="badge badge-mint">Fundador & Desarrollador Full Stack</span>
+          <h2 class="about-title">Atchen Valladares</h2>
+          <p class="about-role text-gradient-mint">Desarrollador Web & Creador de Apps Android en Canarias</p>
+
+          <p class="about-text">
+            Apasionado de la tecnología, el rendimiento y la creación de software con personalidad. Tras más de 16 años de trayectoria técnica multidisciplinar, fundé <strong>AtchenDev</strong> y el estudio <strong>Noobs Hard Coders</strong> para materializar proyectos útiles, sin bloatware y con un diseño cuidado al milímetro.
+          </p>
+          <p class="about-text">
+            Combino el desarrollo frontend de vanguardia (Astro, Next.js, React) con la creación de aplicaciones nativas para Android y plataformas de gestión automatizadas que resuelven necesidades reales.
+          </p>
+
+          <h3 class="skills-heading">Stack Tecnológico & Habilidades</h3>
+          <div class="skills-chips">
+            {skills.map((skill) => (
+              <div class="skill-chip">
+                <span class="skill-dot"></span>
+                <span>{skill.name}</span>
+              </div>
+            ))}
+          </div>
+
+          <div class="cert-action-box">
+            <button type="button" id="cert-modal-open-btn" class="btn btn-secondary cert-btn">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <circle cx="12" cy="8" r="7"></circle>
+                <polyline points="8.21 13.89 7 23 12 20 17 23 15.79 13.88"></polyline>
+              </svg>
+              <span>Ver Certificaciones Oficiales ({CERTIFICATES.length})</span>
+            </button>
+          </div>
+        </div>
+
+        <!-- Right: Profile Photo & Highlights -->
+        <div class="about-visual">
+          <div class="profile-frame">
+            <img
+              src={`${base}/portfolio/ChatGPT_Image_14_oct_2025__12_50_05-removebg-preview.png.webp`}
+              alt="Atchen Valladares - Desarrollador Web y Android"
+              class="profile-img"
+              loading="lazy"
+            />
+          </div>
+
+          <div class="experience-badge cyber-card">
+            <span class="exp-val text-gradient-pink">16+</span>
+            <span class="exp-lbl">Años de Trayectoria Técnica</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Certificates Dialog Lightbox -->
+  <dialog id="cert-dialog" class="cert-dialog">
+    <div class="cert-dialog-content">
+      <div class="cert-dialog-header">
+        <div class="cert-title-wrap">
+          <span class="badge badge-mint">Acreditaciones</span>
+          <h3 class="cert-dialog-title">Certificaciones Profesionales</h3>
+        </div>
+        <button type="button" id="cert-close-btn" class="dialog-close-btn" aria-label="Cerrar ventana">
+          ✕
+        </button>
+      </div>
+
+      <div class="cert-dialog-body">
+        <div class="certs-grid">
+          {CERTIFICATES.map((cert) => (
+            <div class="cert-item cyber-card">
+              <img
+                src={`${base}${cert.image}`}
+                alt={cert.title}
+                class="cert-item-img"
+                loading="lazy"
+              />
+              <div class="cert-item-info">
+                <h4 class="cert-item-title">{cert.title}</h4>
+                <p class="cert-item-inst">{cert.institution}</p>
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+    </div>
+  </dialog>
+</section>
+
+<script>
+  const certModalBtn = document.getElementById('cert-modal-open-btn');
+  const certDialog = document.getElementById('cert-dialog') as HTMLDialogElement | null;
+  const certCloseBtn = document.getElementById('cert-close-btn');
+
+  certModalBtn?.addEventListener('click', () => {
+    certDialog?.showModal();
+    document.body.style.overflow = 'hidden';
+  });
+
+  const closeCertModal = () => {
+    certDialog?.close();
+    document.body.style.overflow = '';
+  };
+
+  certCloseBtn?.addEventListener('click', closeCertModal);
+  certDialog?.addEventListener('click', (e) => {
+    if (e.target === certDialog) closeCertModal();
+  });
+</script>
+
+<style>
+  .about-section {
+    padding: 5rem 0;
+    position: relative;
+    contain: content;
+  }
+
+  .about-card {
+    padding: 3.5rem;
+    background: var(--bg-card);
+    border: 1px solid var(--border-card);
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow-card);
+  }
+
+  .about-layout {
+    display: grid;
+    grid-template-columns: 1.4fr 1fr;
+    gap: 3.5rem;
+    align-items: center;
+  }
+
+  .about-title {
+    font-size: clamp(2rem, 4vw, 2.8rem);
+    margin: 0.75rem 0 0.25rem;
+    color: #ffffff;
+  }
+
+  .about-role {
+    font-size: 1.05rem;
+    font-weight: 700;
+    margin-bottom: 1.35rem;
+  }
+
+  .about-text {
+    font-size: 0.95rem;
+    line-height: 1.65;
+    color: var(--text-secondary);
+    margin-bottom: 1rem;
+  }
+
+  .about-text strong {
+    color: var(--nhc-mint);
+  }
+
+  .skills-heading {
+    font-size: 1.1rem;
+    margin: 1.75rem 0 0.9rem;
+    color: #ffffff;
+  }
+
+  .skills-chips {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    margin-bottom: 2.25rem;
+  }
+
+  .skill-chip {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.45rem;
+    background: rgba(255, 255, 255, 0.04);
+    border: 1px solid var(--border-subtle);
+    padding: 0.35rem 0.85rem;
+    border-radius: var(--radius-full);
+    font-size: 0.82rem;
+    color: #e2e8f0;
+    font-weight: 600;
+    transition: all var(--transition-fast);
+  }
+
+  .skill-chip:hover {
+    border-color: var(--nhc-mint);
+    background: rgba(0, 245, 184, 0.08);
+    transform: translateY(-2px);
+  }
+
+  .skill-dot {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background-color: var(--nhc-mint);
+  }
+
+  .cert-btn {
+    padding: 0.8rem 1.6rem;
+  }
+
+  /* Right Visual */
+  .about-visual {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    position: relative;
+  }
+
+  .profile-frame {
+    width: 290px;
+    height: 290px;
+    border-radius: 50%;
+    overflow: hidden;
+    background: radial-gradient(circle, rgba(0, 245, 184, 0.15) 0%, #060913 80%);
+    border: 2px solid rgba(0, 245, 184, 0.35);
+    box-shadow: 0 16px 40px rgba(0, 0, 0, 0.7), 0 0 35px rgba(0, 245, 184, 0.2);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: transform 0.4s var(--ease-spring);
+  }
+
+  .profile-frame:hover {
+    transform: scale(1.03);
+    border-color: var(--nhc-mint);
+  }
+
+  .profile-img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  .experience-badge {
+    position: absolute;
+    bottom: -15px;
+    background: #090f22;
+    border: 1px solid var(--border-pink);
+    padding: 0.85rem 1.4rem;
+    border-radius: var(--radius-md);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.7);
+  }
+
+  .exp-val {
+    font-size: 1.7rem;
+    font-weight: 900;
+    font-family: var(--font-heading);
+  }
+
+  .exp-lbl {
+    font-size: 0.74rem;
+    color: var(--text-muted);
+    font-weight: 700;
+  }
+
+  /* Dialog Lightbox */
+  .cert-dialog {
+    margin: auto;
+    padding: 0;
+    background: transparent;
+    border: none;
+    max-width: 900px;
+    width: 95vw;
+    color: var(--text-primary);
+  }
+
+  .cert-dialog::backdrop {
+    background: rgba(4, 6, 12, 0.85);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+  }
+
+  .cert-dialog-content {
+    background: #0d1424;
+    border: 1px solid var(--border-mint);
+    border-radius: var(--radius-lg);
+    box-shadow: 0 25px 60px rgba(0, 0, 0, 0.8);
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    max-height: 90vh;
+  }
+
+  .cert-dialog-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 1.25rem 1.5rem;
+    border-bottom: 1px solid var(--border-subtle);
+    background: rgba(255, 255, 255, 0.02);
+  }
+
+  .dialog-close-btn {
+    background: rgba(255, 255, 255, 0.06);
+    border: 1px solid var(--border-subtle);
+    color: var(--text-secondary);
+    width: 34px;
+    height: 34px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: all var(--transition-fast);
+  }
+
+  .dialog-close-btn:hover {
+    color: #ffffff;
+    border-color: var(--nhc-pink);
+  }
+
+  .cert-dialog-body {
+    padding: 1.5rem;
+    overflow-y: auto;
+  }
+
+  .certs-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+    gap: 1.25rem;
+  }
+
+  .cert-item {
+    background: #060913;
+    border: 1px solid var(--border-subtle);
+    border-radius: var(--radius-sm);
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .cert-item-img {
+    width: 100%;
+    height: 180px;
+    object-fit: cover;
+  }
+
+  .cert-item-info {
+    padding: 0.85rem;
+  }
+
+  .cert-item-title {
+    font-size: 0.85rem;
+    font-weight: 700;
+    color: #ffffff;
+    margin-bottom: 0.25rem;
+  }
+
+  .cert-item-inst {
+    font-size: 0.72rem;
+    color: var(--nhc-mint);
+  }
+
+  @media (max-width: 860px) {
+    .about-section {
+      padding: 3rem 0;
+    }
+
+    .about-card {
+      padding: 1.75rem 1.25rem;
+    }
+
+    .about-layout {
+      grid-template-columns: 1fr;
+      gap: 2.5rem;
+    }
+
+    .about-visual {
+      order: -1;
+    }
+
+    .profile-frame {
+      width: 220px;
+      height: 220px;
+    }
+  }
+</style>

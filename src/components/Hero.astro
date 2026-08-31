@@ -1,88 +1,105 @@
 ---
-import { DEVELOPER_INFO, APPS } from '../data/apps';
+import { DEVELOPER_INFO } from '../data/apps';
 const base = import.meta.env.BASE_URL.replace(/\/$/, '');
+
+const techItems = [
+  'Astro Framework',
+  'Next.js 15',
+  'React',
+  'Android Kotlin',
+  'Google Play Console',
+  'AdMob Integration',
+  'TypeScript',
+  'Tailwind & Modern CSS',
+  'Sistemas de Reservas',
+  'E-Commerce WooCommerce',
+  'Core Web Vitals 98+'
+];
 ---
 
 <section class="hero-section">
   <div class="container hero-content">
-    <!-- Brand Mascot & Badge -->
-    <div class="hero-mascot-wrapper">
-      <div class="mascot-frame">
-        <img
-          src={`${base}/logo.png`}
-          alt="Noobs Hard Coders Mascot Logo"
-          class="hero-logo-img"
-          width="420"
-          height="280"
-          loading="eager"
-        />
-      </div>
-    </div>
-
-    <div class="hero-badge-row">
-      <span class="badge badge-mint">
+    <!-- Status & Availability Pill -->
+    <div class="hero-badge-row reveal-on-scroll">
+      <span class="badge badge-mint status-badge">
         <span class="pulse-dot"></span>
-        Indie Android Studio • Canarias, ES
+        AtchenDev • Full Stack & Android Creator
       </span>
       <span class="badge badge-pink">
-        100% Nativo & Sin Bloatware
+        Canarias, ES • Disponible para Proyectos
       </span>
     </div>
 
-    <h1 class="hero-title">
-      Apps y juegos Android con <span class="text-gradient-brand">personalidad propia</span>
+    <!-- Main Title -->
+    <h1 class="hero-title reveal-on-scroll delay-1">
+      Desarrollo Web de Alto Rendimiento, <span class="text-gradient-brand">Software a Medida & Apps</span>
     </h1>
 
-    <p class="hero-subtitle">
-      En <strong>Noobs Hard Coders</strong> desarrollamos utilidades ligeras, herramientas de productividad y bienestar para tu día a día.
+    <p class="hero-subtitle reveal-on-scroll delay-2">
+      Transformo ideas en <strong>sitios web ultra veloces</strong>, <strong>sistemas de reservas inteligentes</strong> y <strong>aplicaciones Android nativas</strong> con el sello independiente <em>Noobs Hard Coders</em>.
     </p>
 
-    <!-- CTAs -->
-    <div class="hero-cta-group">
-      <a href="#apps" class="btn btn-mint hero-btn">
+    <!-- CTAs with Dynamic Glow -->
+    <div class="hero-cta-group reveal-on-scroll delay-3">
+      <a href="#servicios" class="btn btn-mint hero-btn">
         <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-          <rect x="3" y="3" width="7" height="7"></rect>
-          <rect x="14" y="3" width="7" height="7"></rect>
-          <rect x="14" y="14" width="7" height="7"></rect>
-          <rect x="3" y="14" width="7" height="7"></rect>
+          <circle cx="12" cy="12" r="10"></circle>
+          <line x1="2" y1="12" x2="22" y2="12"></line>
+          <path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"></path>
         </svg>
-        <span>Explorar Catálogo ({APPS.length})</span>
+        <span>Servicios & Soluciones</span>
       </a>
 
-      <a
-        href={DEVELOPER_INFO.playStoreDeveloperUrl}
-        target="_blank"
-        rel="noopener noreferrer"
-        class="btn btn-playstore hero-btn"
-      >
+      <a href="#apps-android" class="btn btn-playstore hero-btn">
         <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor">
           <path d="M3.609 1.814L13.793 12 3.61 22.186c-.36-.36-.61-.925-.61-1.637V3.451c0-.712.25-1.277.61-1.637zm11.305 9.066l2.124-2.124-9.923-5.73 7.799 7.854zm0 2.24l-7.799 7.854 9.923-5.73-2.124-2.124zm1.12-1.12l2.607 1.505c.789.456.789 1.198 0 1.654l-2.607 1.505-1.996-1.996 1.996-1.996z"/>
         </svg>
-        <span>Google Play Store</span>
+        <span>Sección Android (NHCoders)</span>
+      </a>
+
+      <a href="#portfolio" class="btn btn-secondary hero-btn">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <rect x="2" y="3" width="20" height="14" rx="2" ry="2"></rect>
+          <line x1="8" y1="21" x2="16" y2="21"></line>
+          <line x1="12" y1="17" x2="12" y2="21"></line>
+        </svg>
+        <span>Ver Portfolio Web</span>
       </a>
     </div>
 
-    <!-- Stats Matrix -->
-    <div class="hero-stats">
-      <div class="stat-box">
-        <span class="stat-val text-gradient-mint">{APPS.length} Apps</span>
-        <span class="stat-lbl">Catálogo Oficial</span>
+    <!-- Stats Matrix with Micro-Animations -->
+    <div class="hero-stats reveal-on-scroll delay-4">
+      <div class="stat-box cyber-card">
+        <span class="stat-val text-gradient-mint">16+ Años</span>
+        <span class="stat-lbl">Trayectoria Técnica</span>
       </div>
 
-      <div class="stat-box">
-        <span class="stat-val text-gradient-pink">4.9 ★</span>
-        <span class="stat-lbl">Valoración Media</span>
+      <div class="stat-box cyber-card">
+        <span class="stat-val text-gradient-pink">98-100</span>
+        <span class="stat-lbl">Google PageSpeed</span>
       </div>
 
-      <div class="stat-box">
-        <span class="stat-val text-gradient-mint">+5K</span>
-        <span class="stat-lbl">Descargas</span>
+      <div class="stat-box cyber-card">
+        <span class="stat-val text-gradient-mint">6 Apps</span>
+        <span class="stat-lbl">Catálogo Google Play</span>
       </div>
 
-      <div class="stat-box">
-        <span class="stat-val text-gradient-pink">0% Bloat</span>
-        <span class="stat-lbl">Ligeras & Rápidas</span>
+      <div class="stat-box cyber-card">
+        <span class="stat-val text-gradient-pink">100%</span>
+        <span class="stat-lbl">Sin Bloatware & Ágil</span>
       </div>
+    </div>
+  </div>
+
+  <!-- Tech Marquee Ticker -->
+  <div class="ticker-wrap reveal-on-scroll delay-4">
+    <div class="ticker-track">
+      {techItems.concat(techItems).map((tech) => (
+        <div class="ticker-item">
+          <span class="ticker-dot"></span>
+          <span>{tech}</span>
+        </div>
+      ))}
     </div>
   </div>
 </section>
@@ -90,7 +107,7 @@ const base = import.meta.env.BASE_URL.replace(/\/$/, '');
 <style>
   .hero-section {
     position: relative;
-    padding: 3rem 0 3.5rem;
+    padding: 3.5rem 0 0;
     overflow-x: clip;
     text-align: center;
     contain: content;
@@ -102,30 +119,19 @@ const base = import.meta.env.BASE_URL.replace(/\/$/, '');
     display: flex;
     flex-direction: column;
     align-items: center;
-  }
-
-  .hero-mascot-wrapper {
-    margin-bottom: 1.25rem;
-    position: relative;
-  }
-
-  .hero-logo-img {
-    max-width: 280px;
-    height: auto;
-    filter: drop-shadow(0 8px 24px rgba(0, 245, 184, 0.25)) drop-shadow(0 4px 12px rgba(255, 0, 127, 0.2));
-    transition: transform 0.3s ease;
-  }
-
-  .hero-logo-img:hover {
-    transform: scale(1.03) rotate(-1deg);
+    margin-bottom: 3.5rem;
   }
 
   .hero-badge-row {
     display: flex;
     gap: 0.5rem;
-    margin-bottom: 1.25rem;
+    margin-bottom: 1.5rem;
     flex-wrap: wrap;
     justify-content: center;
+  }
+
+  .status-badge {
+    box-shadow: 0 0 16px rgba(0, 245, 184, 0.2);
   }
 
   .pulse-dot {
@@ -133,41 +139,48 @@ const base = import.meta.env.BASE_URL.replace(/\/$/, '');
     height: 7px;
     background-color: var(--nhc-mint);
     border-radius: 50%;
-    box-shadow: 0 0 8px var(--nhc-mint);
+    box-shadow: 0 0 10px var(--nhc-mint);
     animation: pulse 2s infinite ease-in-out;
   }
 
   @keyframes pulse {
     0%, 100% { opacity: 1; transform: scale(1); }
-    50% { opacity: 0.4; transform: scale(1.2); }
+    50% { opacity: 0.35; transform: scale(1.3); }
   }
 
   .hero-title {
-    font-size: clamp(1.8rem, 5vw, 3.2rem);
+    font-size: clamp(2rem, 5.5vw, 3.4rem);
     font-weight: 900;
     letter-spacing: -0.03em;
-    max-width: 820px;
-    margin-bottom: 1rem;
+    max-width: 880px;
+    margin-bottom: 1.25rem;
     line-height: 1.15;
   }
 
   .hero-subtitle {
-    font-size: clamp(0.95rem, 2vw, 1.15rem);
-    max-width: 650px;
-    margin-bottom: 2rem;
+    font-size: clamp(1rem, 2vw, 1.2rem);
+    max-width: 720px;
+    margin-bottom: 2.25rem;
     color: var(--text-secondary);
+    line-height: 1.6;
   }
 
   .hero-subtitle strong {
     color: var(--nhc-mint);
   }
 
+  .hero-subtitle em {
+    color: var(--nhc-pink);
+    font-style: normal;
+    font-weight: 700;
+  }
+
   .hero-cta-group {
     display: flex;
-    gap: 1rem;
+    gap: 0.85rem;
     justify-content: center;
     flex-wrap: wrap;
-    margin-bottom: 2.75rem;
+    margin-bottom: 3rem;
     width: 100%;
   }
 
@@ -176,28 +189,28 @@ const base = import.meta.env.BASE_URL.replace(/\/$/, '');
     grid-template-columns: repeat(4, 1fr);
     gap: 1rem;
     width: 100%;
-    max-width: 850px;
+    max-width: 860px;
   }
 
   .stat-box {
     background: var(--bg-card);
-    border: 1px solid rgba(0, 245, 184, 0.2);
+    border: 1px solid var(--border-card);
     border-radius: var(--radius-md);
-    padding: 1rem 0.75rem;
+    padding: 1.15rem 0.85rem;
     display: flex;
     flex-direction: column;
     gap: 0.2rem;
-    box-shadow: var(--shadow-card);
     transition: transform var(--transition-fast), border-color var(--transition-fast);
   }
 
   .stat-box:hover {
     border-color: var(--nhc-mint);
+    transform: translateY(-4px);
   }
 
   .stat-val {
     font-family: var(--font-heading);
-    font-size: 1.4rem;
+    font-size: 1.35rem;
     font-weight: 900;
   }
 
@@ -209,28 +222,7 @@ const base = import.meta.env.BASE_URL.replace(/\/$/, '');
 
   @media (max-width: 768px) {
     .hero-section {
-      padding: 2rem 0 2.5rem;
-    }
-
-    .hero-logo-img {
-      max-width: 220px;
-    }
-
-    .hero-stats {
-      grid-template-columns: repeat(4, 1fr);
-      gap: 0.4rem;
-    }
-
-    .stat-box {
-      padding: 0.6rem 0.35rem;
-    }
-
-    .stat-val {
-      font-size: 1.1rem;
-    }
-
-    .stat-lbl {
-      font-size: 0.65rem;
+      padding: 2.25rem 0 0;
     }
 
     .hero-cta-group {
@@ -244,12 +236,22 @@ const base = import.meta.env.BASE_URL.replace(/\/$/, '');
       padding: 0.65rem 1rem;
       font-size: 0.88rem;
     }
-  }
 
-  @media (max-width: 480px) {
     .hero-stats {
       grid-template-columns: repeat(2, 1fr);
       gap: 0.5rem;
+    }
+
+    .stat-box {
+      padding: 0.75rem 0.45rem;
+    }
+
+    .stat-val {
+      font-size: 1.1rem;
+    }
+
+    .stat-lbl {
+      font-size: 0.68rem;
     }
   }
 </style>

@@ -1,0 +1,216 @@
+---
+import { SERVICES } from '../data/services';
+---
+
+<section id="servicios" class="services-section">
+  <div class="container">
+    <div class="section-header reveal-on-scroll">
+      <span class="badge badge-mint">Soluciones Digitales & Desarrollo</span>
+      <h2 class="section-title">Servicios Web & Software a Medida</h2>
+      <p class="section-subtitle">
+        Desarrollo aplicaciones y portales web orientados a resultados: máxima velocidad de carga, diseño visual cautivador y automatización de procesos para tu negocio.
+      </p>
+    </div>
+
+    <!-- Services Grid (2x2) -->
+    <div class="services-grid">
+      {SERVICES.map((service, index) => (
+        <article class={`service-card cyber-card reveal-on-scroll delay-${(index % 4) + 1}`}>
+          <div class="service-top">
+            <div class={`service-icon-box ${service.badgeColor === 'mint' ? 'icon-mint' : 'icon-pink'}`} set:html={service.iconSvg} />
+            <span class={`badge ${service.badgeColor === 'mint' ? 'badge-mint' : 'badge-pink'}`}>
+              {service.badge}
+            </span>
+          </div>
+
+          <h3 class="service-title">{service.title}</h3>
+          <p class="service-subtitle">{service.subtitle}</p>
+          <p class="service-desc">{service.description}</p>
+
+          <ul class="service-features-list">
+            {service.features.map((feat) => (
+              <li class="service-feature-item">
+                <span class="service-bullet">✓</span>
+                <span>{feat}</span>
+              </li>
+            ))}
+          </ul>
+
+          <div class="service-action">
+            <a href={service.ctaHash} class="btn btn-secondary service-btn">
+              <span>{service.ctaText}</span>
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                <line x1="5" y1="12" x2="19" y2="12"></line>
+                <polyline points="12 5 19 12 12 19"></polyline>
+              </svg>
+            </a>
+          </div>
+        </article>
+      ))}
+    </div>
+  </div>
+</section>
+
+<style>
+  .services-section {
+    padding: 5rem 0;
+    position: relative;
+    contain: content;
+  }
+
+  .section-header {
+    text-align: center;
+    max-width: 800px;
+    margin: 0 auto 3rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.75rem;
+  }
+
+  .section-title {
+    font-size: clamp(1.85rem, 4vw, 2.7rem);
+    letter-spacing: -0.02em;
+  }
+
+  .section-subtitle {
+    font-size: 1.05rem;
+    color: var(--text-secondary);
+    line-height: 1.6;
+  }
+
+  .services-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1.75rem;
+    width: 100%;
+  }
+
+  .service-card {
+    padding: 2.25rem 2rem;
+    display: flex;
+    flex-direction: column;
+    background: var(--bg-card);
+    border: 1px solid var(--border-card);
+    border-radius: var(--radius-lg);
+    transition: transform var(--transition-fast), border-color var(--transition-fast), box-shadow var(--transition-fast);
+  }
+
+  .service-card:hover {
+    border-color: var(--nhc-mint);
+    transform: translateY(-5px);
+    box-shadow: 0 16px 36px -8px rgba(0, 0, 0, 0.6), 0 0 20px rgba(0, 245, 184, 0.15);
+  }
+
+  .service-top {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1.35rem;
+  }
+
+  .service-icon-box {
+    width: 52px;
+    height: 52px;
+    border-radius: var(--radius-sm);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: transform var(--transition-fast);
+  }
+
+  .service-card:hover .service-icon-box {
+    transform: scale(1.08);
+  }
+
+  .icon-mint {
+    background: rgba(0, 245, 184, 0.12);
+    border: 1px solid rgba(0, 245, 184, 0.35);
+    color: var(--nhc-mint);
+  }
+
+  .icon-pink {
+    background: rgba(255, 0, 127, 0.12);
+    border: 1px solid rgba(255, 0, 127, 0.35);
+    color: #ff4da6;
+  }
+
+  .service-title {
+    font-size: 1.35rem;
+    font-weight: 800;
+    margin-bottom: 0.25rem;
+    color: #ffffff;
+  }
+
+  .service-subtitle {
+    font-size: 0.88rem;
+    font-weight: 700;
+    color: var(--nhc-mint);
+    margin-bottom: 0.85rem;
+  }
+
+  .service-desc {
+    font-size: 0.9rem;
+    line-height: 1.6;
+    color: var(--text-secondary);
+    margin-bottom: 1.35rem;
+  }
+
+  .service-features-list {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    margin-bottom: 1.75rem;
+    background: rgba(5, 8, 20, 0.6);
+    padding: 1rem 1.15rem;
+    border-radius: var(--radius-sm);
+    border: 1px solid rgba(255, 255, 255, 0.05);
+  }
+
+  .service-feature-item {
+    display: flex;
+    align-items: flex-start;
+    gap: 0.55rem;
+    font-size: 0.84rem;
+    color: #cbd5e1;
+    line-height: 1.45;
+  }
+
+  .service-bullet {
+    color: var(--nhc-mint);
+    font-weight: 900;
+    flex-shrink: 0;
+  }
+
+  .service-action {
+    margin-top: auto;
+  }
+
+  .service-btn {
+    width: 100%;
+    padding: 0.75rem 1.15rem;
+    font-size: 0.9rem;
+  }
+
+  .service-btn:hover {
+    background: rgba(0, 245, 184, 0.12);
+    border-color: var(--nhc-mint);
+    color: var(--nhc-mint);
+  }
+
+  @media (max-width: 768px) {
+    .services-section {
+      padding: 3rem 0;
+    }
+
+    .services-grid {
+      grid-template-columns: 1fr;
+      gap: 1.25rem;
+    }
+
+    .service-card {
+      padding: 1.5rem 1.25rem;
+    }
+  }
+</style>

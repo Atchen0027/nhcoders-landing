@@ -1,5 +1,5 @@
 ---
-import { APPS } from '../data/apps';
+import { APPS, DEVELOPER_INFO } from '../data/apps';
 import AppCard from './AppCard.astro';
 import ScreenshotModal from './ScreenshotModal.astro';
 
@@ -9,19 +9,58 @@ const categories = [
   { id: 'salud', label: 'Salud, Bienestar & Sueño', count: APPS.filter(a => a.category === 'salud').length },
   { id: 'educacion', label: 'Educación & Deportes', count: APPS.filter(a => a.category === 'educacion').length },
 ].filter(c => c.count > 0);
+
+const base = import.meta.env.BASE_URL.replace(/\/$/, '');
 ---
 
-<section id="apps" class="apps-section">
+<section id="apps-android" class="apps-section">
   <div class="container">
-    <div class="section-header">
-      <span class="badge badge-mint">Catálogo Android</span>
-      <h2 class="section-title">Nuestras Creaciones</h2>
-      <p class="section-subtitle">
-        Aplicaciones y utilidades nativas para Android. Toca cualquier app para ver capturas completas o instalar desde Google Play.
-      </p>
+    <!-- Noobs Hard Coders Dedicated Studio Banner -->
+    <div class="nhc-studio-header cyber-card reveal-on-scroll">
+      <div class="nhc-logo-wrap">
+        <img
+          src={`${base}/logo.png`}
+          alt="Noobs Hard Coders Mascot Logo"
+          class="nhc-studio-logo"
+          width="260"
+          height="170"
+          loading="lazy"
+        />
+      </div>
 
-      <!-- Category Filter Tabs -->
-      <div class="category-filters" role="tablist" aria-label="Filtrar aplicaciones por categoría">
+      <div class="nhc-studio-info">
+        <div class="badges-row">
+          <span class="badge badge-mint">Sello Android Indie</span>
+          <span class="badge badge-pink">100% Nativo & Sin Bloatware</span>
+        </div>
+
+        <h2 class="section-title">
+          Noobs Hard Coders <span class="text-gradient-mint">(NHCoders)</span>
+        </h2>
+
+        <p class="section-subtitle">
+          Mi división y estudio independiente dedicado al desarrollo de <strong>aplicaciones y juegos nativos para Android</strong> publicados en Google Play Store con interfaces optimizadas y bajo consumo de recursos.
+        </p>
+
+        <div class="nhc-studio-ctas">
+          <a
+            href={DEVELOPER_INFO.playStoreDeveloperUrl}
+            target="_blank"
+            rel="noopener noreferrer"
+            class="btn btn-playstore nhc-cta-btn"
+          >
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor">
+              <path d="M3.609 1.814L13.793 12 3.61 22.186c-.36-.36-.61-.925-.61-1.637V3.451c0-.712.25-1.277.61-1.637zm11.305 9.066l2.124-2.124-9.923-5.73 7.799 7.854zm0 2.24l-7.799 7.854 9.923-5.73-2.124-2.124zm1.12-1.12l2.607 1.505c.789.456.789 1.198 0 1.654l-2.607 1.505-1.996-1.996 1.996-1.996z"/>
+            </svg>
+            <span>Ver Catálogo en Google Play</span>
+          </a>
+        </div>
+      </div>
+    </div>
+
+    <!-- Category Filter Tabs -->
+    <div class="category-filters-container reveal-on-scroll delay-1">
+      <div class="category-filters" role="tablist" aria-label="Filtrar aplicaciones Android por categoría">
         {categories.map((cat, idx) => (
           <button
             type="button"
@@ -37,8 +76,8 @@ const categories = [
       </div>
     </div>
 
-    <!-- Apps Grid (3 columns on mobile and desktop) -->
-    <div class="apps-grid" id="apps-grid-container">
+    <!-- Apps Grid (3 columns on mobile & desktop) -->
+    <div class="apps-grid reveal-on-scroll delay-2" id="apps-grid-container">
       {APPS.map((app) => (
         <div class="app-item-wrapper" data-app-category={app.category}>
           <AppCard app={app} />
@@ -52,7 +91,7 @@ const categories = [
 </section>
 
 <script>
-  // Instant Category Filter
+  // Category Filter
   const filterButtons = document.querySelectorAll<HTMLButtonElement>('.filter-tab');
   const appCards = document.querySelectorAll<HTMLElement>('.app-item-wrapper');
 
@@ -81,29 +120,82 @@ const categories = [
 
 <style>
   .apps-section {
-    padding: 4rem 0 5rem;
+    padding: 5rem 0;
     position: relative;
     contain: content;
+    background: radial-gradient(ellipse at 50% 10%, rgba(0, 245, 184, 0.05) 0%, transparent 60%);
+    border-top: 1px solid rgba(0, 245, 184, 0.15);
+    border-bottom: 1px solid rgba(255, 0, 127, 0.15);
   }
 
-  .section-header {
-    text-align: center;
-    max-width: 760px;
-    margin: 0 auto 2.5rem;
+  .nhc-studio-header {
+    display: flex;
+    align-items: center;
+    gap: 2.5rem;
+    background: #090f22;
+    border: 1.5px solid rgba(0, 245, 184, 0.3);
+    border-radius: var(--radius-lg);
+    padding: 2.5rem;
+    margin-bottom: 2.75rem;
+    box-shadow: 0 16px 40px -8px rgba(0, 0, 0, 0.6), 0 0 25px rgba(0, 245, 184, 0.15);
+  }
+
+  .nhc-logo-wrap {
+    flex-shrink: 0;
+    transition: transform 0.4s var(--ease-spring);
+  }
+
+  .nhc-studio-header:hover .nhc-logo-wrap {
+    transform: scale(1.04) rotate(-1deg);
+  }
+
+  .nhc-studio-logo {
+    max-width: 220px;
+    height: auto;
+    filter: drop-shadow(0 8px 24px rgba(0, 245, 184, 0.3));
+  }
+
+  .nhc-studio-info {
     display: flex;
     flex-direction: column;
-    align-items: center;
-    gap: 0.75rem;
+    gap: 0.65rem;
+  }
+
+  .badges-row {
+    display: flex;
+    gap: 0.5rem;
+    flex-wrap: wrap;
   }
 
   .section-title {
-    font-size: clamp(1.8rem, 4vw, 2.6rem);
+    font-size: clamp(1.85rem, 4vw, 2.6rem);
     letter-spacing: -0.02em;
+    line-height: 1.2;
   }
 
   .section-subtitle {
     font-size: 1rem;
     color: var(--text-secondary);
+    line-height: 1.6;
+  }
+
+  .section-subtitle strong {
+    color: var(--nhc-mint);
+  }
+
+  .nhc-studio-ctas {
+    margin-top: 0.6rem;
+  }
+
+  .nhc-cta-btn {
+    padding: 0.75rem 1.4rem;
+    font-size: 0.92rem;
+  }
+
+  .category-filters-container {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 2.25rem;
   }
 
   .category-filters {
@@ -111,20 +203,19 @@ const categories = [
     flex-wrap: wrap;
     gap: 0.5rem;
     justify-content: center;
-    margin-top: 1rem;
   }
 
   .filter-tab {
     display: inline-flex;
     align-items: center;
-    gap: 0.4rem;
-    padding: 0.5rem 1rem;
-    background: #0d1424;
-    border: 1px solid var(--border-subtle);
+    gap: 0.45rem;
+    padding: 0.55rem 1.15rem;
+    background: #090f22;
+    border: 1px solid var(--border-card);
     border-radius: var(--radius-full);
     color: var(--text-secondary);
     font-family: var(--font-heading);
-    font-size: 0.85rem;
+    font-size: 0.88rem;
     font-weight: 700;
     cursor: pointer;
     transition: all var(--transition-fast);
@@ -133,24 +224,25 @@ const categories = [
   .filter-tab:hover {
     border-color: var(--nhc-mint);
     color: #ffffff;
+    transform: translateY(-2px);
   }
 
   .filter-tab.active {
     background: var(--nhc-mint);
-    color: #060913;
+    color: #040711;
     border-color: var(--nhc-mint);
-    box-shadow: 0 2px 10px rgba(0, 245, 184, 0.3);
+    box-shadow: 0 4px 16px rgba(0, 245, 184, 0.35);
   }
 
   .tab-count {
     background: rgba(0, 0, 0, 0.25);
-    padding: 0.08rem 0.4rem;
+    padding: 0.1rem 0.45rem;
     border-radius: var(--radius-full);
-    font-size: 0.72rem;
+    font-size: 0.74rem;
     font-weight: 800;
   }
 
-  /* 3 Columns Grid on Desktop */
+  /* 3 Columns Grid on Desktop & Mobile */
   .apps-grid {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
@@ -162,23 +254,41 @@ const categories = [
     min-width: 0;
   }
 
-  /* Mobile: 3 Columns Grid (Cards in rows of 3) */
   @media (max-width: 768px) {
     .apps-section {
-      padding: 2.5rem 0 3.5rem;
+      padding: 3rem 0;
     }
 
-    .section-header {
-      margin-bottom: 1.75rem;
+    .nhc-studio-header {
+      flex-direction: column;
+      text-align: center;
+      padding: 1.75rem 1.25rem;
+      gap: 1.25rem;
+      align-items: center;
+      margin-bottom: 2rem;
+    }
+
+    .nhc-studio-logo {
+      max-width: 160px;
+    }
+
+    .badges-row {
+      justify-content: center;
+    }
+
+    .nhc-studio-ctas {
+      display: flex;
+      justify-content: center;
+    }
+
+    .nhc-cta-btn {
+      width: 100%;
+      justify-content: center;
     }
 
     .apps-grid {
       grid-template-columns: repeat(3, 1fr);
       gap: 0.5rem;
-    }
-
-    .category-filters {
-      gap: 0.35rem;
     }
 
     .filter-tab {
