@@ -180,9 +180,35 @@ const canonicalURL = new URL(Astro.url.pathname, Astro.site || 'https://atchen00
       </div>
     </footer>
 
-    <!-- Global Interactions Script (Scroll Reveal, Mouse Spotlight, Mobile Menu, Active Section Highlight) -->
+    <!-- Global Interactions Script (Parallax Multiplane, Scroll Reveal, Spotlight, Mobile Menu) -->
     <script>
-      // 1. Scroll Reveal Observer
+      // 1. Multiplane Parallax Scroll Animation
+      let ticking = false;
+      window.addEventListener('scroll', () => {
+        if (!ticking) {
+          window.requestAnimationFrame(() => {
+            const scrollY = window.scrollY;
+            document.documentElement.style.setProperty('--parallax-grid', `${(scrollY * 0.12) % 48}px`);
+            document.documentElement.style.setProperty('--parallax-orb-1', `${scrollY * 0.15}px`);
+            document.documentElement.style.setProperty('--parallax-orb-2', `${scrollY * 0.08}px`);
+            document.documentElement.style.setProperty('--parallax-orb-3', `${scrollY * 0.1}px`);
+            document.documentElement.style.setProperty('--parallax-orb-4', `${scrollY * 0.06}px`);
+
+            // Header Shadow
+            const header = document.getElementById('main-header');
+            if (scrollY > 20) {
+              header?.classList.add('scrolled');
+            } else {
+              header?.classList.remove('scrolled');
+            }
+
+            ticking = false;
+          });
+          ticking = true;
+        }
+      }, { passive: true });
+
+      // 2. Scroll Reveal Observer
       const observerCallback: IntersectionObserverCallback = (entries, observer) => {
         entries.forEach((entry) => {
           if (entry.isIntersecting) {
@@ -193,15 +219,15 @@ const canonicalURL = new URL(Astro.url.pathname, Astro.site || 'https://atchen00
       };
 
       const revealObserver = new IntersectionObserver(observerCallback, {
-        threshold: 0.12,
-        rootMargin: '0px 0px -40px 0px'
+        threshold: 0.1,
+        rootMargin: '0px 0px -30px 0px'
       });
 
       document.querySelectorAll('.reveal-on-scroll').forEach((el) => {
         revealObserver.observe(el);
       });
 
-      // 2. Mouse Ambient Spotlight Effect (Desktop)
+      // 3. Mouse Ambient Spotlight Effect (Desktop)
       const spotlight = document.getElementById('ambient-spotlight');
       if (spotlight && window.matchMedia('(pointer: fine)').matches) {
         let mouseX = 0;
@@ -223,7 +249,7 @@ const canonicalURL = new URL(Astro.url.pathname, Astro.site || 'https://atchen00
         requestAnimationFrame(animateSpotlight);
       }
 
-      // 3. Mobile Menu Drawer Toggle
+      // 4. Mobile Menu Drawer Toggle
       const toggleBtn = document.getElementById('mobile-menu-toggle');
       const drawer = document.getElementById('mobile-nav-drawer');
 
@@ -238,16 +264,6 @@ const canonicalURL = new URL(Astro.url.pathname, Astro.site || 'https://atchen00
           toggleBtn?.classList.remove('active');
         });
       });
-
-      // 4. Header Shadow on Scroll
-      const header = document.getElementById('main-header');
-      window.addEventListener('scroll', () => {
-        if (window.scrollY > 20) {
-          header?.classList.add('scrolled');
-        } else {
-          header?.classList.remove('scrolled');
-        }
-      }, { passive: true });
     </script>
 
     <style>

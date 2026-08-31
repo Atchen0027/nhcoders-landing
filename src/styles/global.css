@@ -51,6 +51,7 @@
   --radius-sm: 10px;
   --radius-md: 16px;
   --radius-lg: 22px;
+  --radius-xl: 36px;
   --radius-full: 9999px;
 
   --container-max: 1220px;
@@ -87,26 +88,119 @@ body {
   display: flex;
   flex-direction: column;
   background-color: var(--bg-primary);
-  background-image: 
-    radial-gradient(circle at 10% 10%, rgba(0, 245, 184, 0.05) 0%, transparent 35%),
-    radial-gradient(circle at 90% 20%, rgba(255, 0, 127, 0.05) 0%, transparent 35%),
-    radial-gradient(circle at 50% 80%, rgba(59, 130, 246, 0.04) 0%, transparent 40%);
   overflow-x: clip;
   width: 100%;
   max-width: 100%;
-  contain: paint;
 }
 
-/* Background Subtle Grid */
+/* Dynamic Parallax Background Layers */
 .bg-mesh-grid {
   position: fixed;
   inset: 0;
-  background-size: 40px 40px;
+  background-size: 48px 48px;
   background-image: 
-    linear-gradient(to right, rgba(255, 255, 255, 0.02) 1px, transparent 1px),
-    linear-gradient(to bottom, rgba(255, 255, 255, 0.02) 1px, transparent 1px);
+    linear-gradient(to right, rgba(255, 255, 255, 0.025) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(255, 255, 255, 0.025) 1px, transparent 1px);
   pointer-events: none;
   z-index: 0;
+  transform: translateY(var(--parallax-grid, 0px));
+  will-change: transform;
+}
+
+/* Stacked Section Overlap Architecture (Layer Overlap Parallax Effect) */
+.parallax-section-layer {
+  position: relative;
+  width: 100%;
+  transition: transform var(--transition-normal);
+  overflow: hidden;
+}
+
+.layer-main {
+  z-index: 1;
+  background: #040711;
+  padding-bottom: 2.5rem;
+}
+
+.layer-android {
+  z-index: 2;
+  margin-top: -45px;
+  border-top-left-radius: var(--radius-xl);
+  border-top-right-radius: var(--radius-xl);
+  background: #050a1b;
+  border-top: 1.5px solid rgba(0, 245, 184, 0.35);
+  box-shadow: 0 -28px 70px rgba(0, 0, 0, 0.92), 0 -8px 30px rgba(0, 245, 184, 0.15);
+  padding-top: 2rem;
+  padding-bottom: 2.5rem;
+}
+
+.layer-portfolio {
+  z-index: 3;
+  margin-top: -45px;
+  border-top-left-radius: var(--radius-xl);
+  border-top-right-radius: var(--radius-xl);
+  background: #070d24;
+  border-top: 1.5px solid rgba(255, 0, 127, 0.35);
+  box-shadow: 0 -28px 70px rgba(0, 0, 0, 0.92), 0 -8px 30px rgba(255, 0, 127, 0.15);
+  padding-top: 2rem;
+  padding-bottom: 2.5rem;
+}
+
+.layer-about-contact {
+  z-index: 4;
+  margin-top: -45px;
+  border-top-left-radius: var(--radius-xl);
+  border-top-right-radius: var(--radius-xl);
+  background: #04060f;
+  border-top: 1.5px solid rgba(255, 255, 255, 0.12);
+  box-shadow: 0 -28px 70px rgba(0, 0, 0, 0.96), 0 -8px 30px rgba(59, 130, 246, 0.15);
+  padding-top: 2rem;
+}
+
+/* Floating Parallax Orbs */
+.parallax-floating-orb {
+  position: absolute;
+  border-radius: 50%;
+  pointer-events: none;
+  filter: blur(80px);
+  opacity: 0.45;
+  z-index: 0;
+  will-change: transform;
+}
+
+.orb-main {
+  width: 500px;
+  height: 400px;
+  top: 5%;
+  left: 10%;
+  background: radial-gradient(circle, rgba(0, 245, 184, 0.2) 0%, transparent 70%);
+  transform: translateY(var(--parallax-orb-1, 0px));
+}
+
+.orb-android {
+  width: 550px;
+  height: 450px;
+  top: 10%;
+  right: 5%;
+  background: radial-gradient(circle, rgba(0, 245, 184, 0.22) 0%, transparent 70%);
+  transform: translateY(var(--parallax-orb-2, 0px));
+}
+
+.orb-portfolio {
+  width: 550px;
+  height: 450px;
+  top: 15%;
+  left: 5%;
+  background: radial-gradient(circle, rgba(255, 0, 127, 0.18) 0%, transparent 70%);
+  transform: translateY(var(--parallax-orb-3, 0px));
+}
+
+.orb-contact {
+  width: 500px;
+  height: 400px;
+  bottom: 10%;
+  right: 10%;
+  background: radial-gradient(circle, rgba(59, 130, 246, 0.16) 0%, transparent 70%);
+  transform: translateY(var(--parallax-orb-4, 0px));
 }
 
 /* Typography */
@@ -143,6 +237,8 @@ img, svg {
   padding-left: 1.5rem;
   padding-right: 1.5rem;
   box-sizing: border-box;
+  position: relative;
+  z-index: 1;
 }
 
 /* Text Gradients */
@@ -217,7 +313,7 @@ img, svg {
   border: 1px solid rgba(59, 130, 246, 0.35);
 }
 
-/* Buttons with Hover Effects */
+/* Buttons */
 .btn {
   display: inline-flex;
   align-items: center;
@@ -368,7 +464,15 @@ img, svg {
   background: var(--nhc-mint);
 }
 
-@media (max-width: 640px) {
+@media (max-width: 768px) {
+  .layer-android,
+  .layer-portfolio,
+  .layer-about-contact {
+    margin-top: -28px;
+    border-top-left-radius: 24px;
+    border-top-right-radius: 24px;
+  }
+
   .container {
     padding-left: 1rem;
     padding-right: 1rem;

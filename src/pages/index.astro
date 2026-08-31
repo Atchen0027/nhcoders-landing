@@ -12,21 +12,29 @@ import DeveloperContact from '../components/DeveloperContact.astro';
   title="AtchenDev | Desarrollo Web & Apps Android (Noobs Hard Coders)"
   description="Portfolio oficial de Atchen Valladares (AtchenDev): servicios de desarrollo web moderno (Astro, Next.js, React), catálogo de apps Android en Google Play de Noobs Hard Coders y proyectos a medida."
 >
-  <!-- 1. Web Development Hero & Intro -->
-  <Hero />
+  <!-- LAYER 1: Web Development Hero & Services (Main Entrance) -->
+  <div class="parallax-section-layer layer-main">
+    <div class="parallax-floating-orb orb-main" aria-hidden="true"></div>
+    <Hero />
+    <ServicesSection />
+  </div>
 
-  <!-- 2. Web Development Services & Digital Solutions -->
-  <ServicesSection />
+  <!-- LAYER 2: Dedicated Android Studio (Noobs Hard Coders - Overlaps Layer 1 with Mint Neon Aura) -->
+  <div class="parallax-section-layer layer-android">
+    <div class="parallax-floating-orb orb-android" aria-hidden="true"></div>
+    <AppsGrid />
+  </div>
 
-  <!-- 3. Dedicated Android Studio (Noobs Hard Coders) -->
-  <AppsGrid />
+  <!-- LAYER 3: Web Development Portfolio (AtchenDev - Overlaps Layer 2 with Magenta Aura) -->
+  <div class="parallax-section-layer layer-portfolio">
+    <div class="parallax-floating-orb orb-portfolio" aria-hidden="true"></div>
+    <WebProjectsSection />
+  </div>
 
-  <!-- 4. Web Development Portfolio & Demos -->
-  <WebProjectsSection />
-
-  <!-- 5. About Atchen Valladares & Certifications -->
-  <AboutSection />
-
-  <!-- 6. Unified Contact & Quotes -->
-  <DeveloperContact />
+  <!-- LAYER 4: About & Unified Contact (Overlaps Layer 3 with Obsidian Base) -->
+  <div class="parallax-section-layer layer-about-contact">
+    <div class="parallax-floating-orb orb-contact" aria-hidden="true"></div>
+    <AboutSection />
+    <DeveloperContact />
+  </div>
 </Layout>
