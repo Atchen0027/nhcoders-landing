@@ -58,7 +58,7 @@ const base = import.meta.env.BASE_URL.replace(/\/$/, '');
       </div>
     </div>
 
-    <!-- Category Filter Tabs -->
+    <!-- Category Filter Tabs (Desktop & Tablet) -->
     <div class="category-filters-container reveal-on-scroll delay-1">
       <div class="category-filters" role="tablist" aria-label="Filtrar aplicaciones Android por categoría">
         {categories.map((cat, idx) => (
@@ -76,12 +76,35 @@ const base = import.meta.env.BASE_URL.replace(/\/$/, '');
       </div>
     </div>
 
-    <!-- Apps Grid (3 columns on mobile & desktop) -->
-    <div class="apps-grid reveal-on-scroll delay-2" id="apps-grid-container">
-      {APPS.map((app) => (
-        <div class="app-item-wrapper" data-app-category={app.category}>
-          <AppCard app={app} />
-        </div>
+    <!-- Apps Container (Desktop Grid & Mobile Swipeable Autopass Carousel) -->
+    <div class="apps-carousel-wrapper reveal-on-scroll delay-2">
+      <!-- Carousel Edge Peek Hints (Mobile only) -->
+      <button type="button" class="carousel-nav-btn prev-btn mobile-only" id="apps-carousel-prev" aria-label="Ver app anterior">
+        ‹
+      </button>
+
+      <div class="apps-grid" id="apps-grid-container">
+        {APPS.map((app, index) => (
+          <div class="app-item-wrapper" data-app-category={app.category} data-slide-index={index}>
+            <AppCard app={app} />
+          </div>
+        ))}
+      </div>
+
+      <button type="button" class="carousel-nav-btn next-btn mobile-only" id="apps-carousel-next" aria-label="Ver siguiente app">
+        ›
+      </button>
+    </div>
+
+    <!-- Mobile Carousel Indicators -->
+    <div class="carousel-indicators mobile-only" id="apps-carousel-indicators">
+      {APPS.map((_, idx) => (
+        <button
+          type="button"
+          class={`indicator-dot ${idx === 0 ? 'active' : ''}`}
+          data-indicator-index={idx}
+          aria-label={`Ir a la aplicación ${idx + 1}`}
+        ></button>
       ))}
     </div>
   </div>
@@ -109,13 +132,98 @@ const base = import.meta.env.BASE_URL.replace(/\/$/, '');
       appCards.forEach((card) => {
         const cardCategory = card.dataset.appCategory;
         if (selectedCategory === 'todas' || cardCategory === selectedCategory) {
-          card.style.display = 'block';
+          card.style.display = '';
         } else {
           card.style.display = 'none';
         }
       });
     });
   });
+
+  // Mobile Autopass & Carousel Indicators Logic
+  const gridContainer = document.getElementById('apps-grid-container');
+  const indicatorDots = document.querySelectorAll<HTMLButtonElement>('#apps-carousel-indicators .indicator-dot');
+  const prevBtn = document.getElementById('apps-carousel-prev');
+  const nextBtn = document.getElementById('apps-carousel-next');
+
+  if (gridContainer && indicatorDots.length > 0) {
+    let autoPassInterval: number | null = null;
+    let isUserInteracting = false;
+
+    // Update active dot based on scroll
+    const updateActiveDot = () => {
+      const scrollLeft = gridContainer.scrollLeft;
+      const cardWidth = (gridContainer.firstElementChild as HTMLElement)?.offsetWidth || 280;
+      const activeIdx = Math.round(scrollLeft / (cardWidth + 14));
+      
+      indicatorDots.forEach((dot, idx) => {
+        dot.classList.toggle('active', idx === activeIdx);
+      });
+    };
+
+    gridContainer.addEventListener('scroll', updateActiveDot, { passive: true });
+
+    // Click on indicators
+    indicatorDots.forEach((dot) => {
+      dot.addEventListener('click', () => {
+        const targetIdx = Number(dot.dataset.indicatorIndex);
+        const card = gridContainer.children[targetIdx] as HTMLElement;
+        if (card) {
+          card.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'center' });
+        }
+      });
+    });
+
+    // Arrow navigation
+    prevBtn?.addEventListener('click', () => {
+      const cardWidth = (gridContainer.firstElementChild as HTMLElement)?.offsetWidth || 280;
+      gridContainer.scrollBy({ left: -(cardWidth + 14), behavior: 'smooth' });
+    });
+
+    nextBtn?.addEventListener('click', () => {
+      const cardWidth = (gridContainer.firstElementChild as HTMLElement)?.offsetWidth || 280;
+      gridContainer.scrollBy({ left: cardWidth + 14, behavior: 'smooth' });
+    });
+
+    // Autopass functionality (only on mobile screens)
+    const startAutoPass = () => {
+      if (window.innerWidth <= 768 && !autoPassInterval) {
+        autoPassInterval = window.setInterval(() => {
+          if (!isUserInteracting) {
+            const maxScroll = gridContainer.scrollWidth - gridContainer.clientWidth;
+            const cardWidth = (gridContainer.firstElementChild as HTMLElement)?.offsetWidth || 280;
+            
+            if (gridContainer.scrollLeft >= maxScroll - 20) {
+              gridContainer.scrollTo({ left: 0, behavior: 'smooth' });
+            } else {
+              gridContainer.scrollBy({ left: cardWidth + 14, behavior: 'smooth' });
+            }
+          }
+        }, 3600);
+      }
+    };
+
+    const stopAutoPass = () => {
+      if (autoPassInterval) {
+        clearInterval(autoPassInterval);
+        autoPassInterval = null;
+      }
+    };
+
+    gridContainer.addEventListener('touchstart', () => { isUserInteracting = true; }, { passive: true });
+    gridContainer.addEventListener('touchend', () => {
+      setTimeout(() => { isUserInteracting = false; }, 3000);
+    }, { passive: true });
+
+    gridContainer.addEventListener('mouseenter', () => { isUserInteracting = true; });
+    gridContainer.addEventListener('mouseleave', () => { isUserInteracting = false; });
+
+    startAutoPass();
+    window.addEventListener('resize', () => {
+      if (window.innerWidth > 768) stopAutoPass();
+      else startAutoPass();
+    });
+  }
 </script>
 
 <style>
@@ -123,17 +231,14 @@ const base = import.meta.env.BASE_URL.replace(/\/$/, '');
     padding: 5rem 0;
     position: relative;
     contain: content;
-    background: radial-gradient(ellipse at 50% 10%, rgba(0, 245, 184, 0.05) 0%, transparent 60%);
-    border-top: 1px solid rgba(0, 245, 184, 0.15);
-    border-bottom: 1px solid rgba(255, 0, 127, 0.15);
   }
 
   .nhc-studio-header {
     display: flex;
     align-items: center;
     gap: 2.5rem;
-    background: #090f22;
-    border: 1.5px solid rgba(0, 245, 184, 0.3);
+    background: rgba(9, 15, 34, 0.85);
+    border: 1.5px solid rgba(0, 245, 184, 0.35);
     border-radius: var(--radius-lg);
     padding: 2.5rem;
     margin-bottom: 2.75rem;
@@ -210,7 +315,7 @@ const base = import.meta.env.BASE_URL.replace(/\/$/, '');
     align-items: center;
     gap: 0.45rem;
     padding: 0.55rem 1.15rem;
-    background: #090f22;
+    background: rgba(9, 15, 34, 0.85);
     border: 1px solid var(--border-card);
     border-radius: var(--radius-full);
     color: var(--text-secondary);
@@ -242,7 +347,12 @@ const base = import.meta.env.BASE_URL.replace(/\/$/, '');
     font-weight: 800;
   }
 
-  /* 3 Columns Grid on Desktop & Mobile */
+  /* Desktop Apps Grid */
+  .apps-carousel-wrapper {
+    position: relative;
+    width: 100%;
+  }
+
   .apps-grid {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
@@ -254,7 +364,16 @@ const base = import.meta.env.BASE_URL.replace(/\/$/, '');
     min-width: 0;
   }
 
+  .mobile-only {
+    display: none;
+  }
+
+  /* Mobile Swipeable Carousel with Autopass & Peek indicators */
   @media (max-width: 768px) {
+    .mobile-only {
+      display: flex;
+    }
+
     .apps-section {
       padding: 3rem 0;
     }
@@ -286,20 +405,88 @@ const base = import.meta.env.BASE_URL.replace(/\/$/, '');
       justify-content: center;
     }
 
-    .apps-grid {
-      grid-template-columns: repeat(3, 1fr);
-      gap: 0.5rem;
+    /* Horizontal Carousel Track */
+    .apps-carousel-wrapper {
+      position: relative;
+      margin: 0 -1rem;
+      padding: 0 1rem;
     }
 
-    .filter-tab {
-      padding: 0.4rem 0.75rem;
-      font-size: 0.75rem;
-    }
-  }
-
-  @media (max-width: 380px) {
     .apps-grid {
-      gap: 0.35rem;
+      display: flex;
+      overflow-x: auto;
+      scroll-snap-type: x mandatory;
+      gap: 0.9rem;
+      padding: 0.5rem 0.5rem 1rem;
+      scroll-padding: 0 1.25rem;
+      -webkit-overflow-scrolling: touch;
+      scrollbar-width: none;
+    }
+
+    .apps-grid::-webkit-scrollbar {
+      display: none;
+    }
+
+    .app-item-wrapper {
+      flex: 0 0 76vw;
+      max-width: 290px;
+      scroll-snap-align: center;
+      transition: transform 0.3s ease;
+    }
+
+    /* Carousel Nav Floating Buttons */
+    .carousel-nav-btn {
+      position: absolute;
+      top: 45%;
+      transform: translateY(-50%);
+      width: 34px;
+      height: 34px;
+      border-radius: 50%;
+      background: rgba(9, 15, 34, 0.92);
+      border: 1px solid var(--border-mint);
+      color: var(--nhc-mint);
+      font-size: 1.3rem;
+      font-weight: 800;
+      cursor: pointer;
+      align-items: center;
+      justify-content: center;
+      z-index: 10;
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.6);
+      backdrop-filter: blur(8px);
+    }
+
+    .prev-btn {
+      left: 0.25rem;
+    }
+
+    .next-btn {
+      right: 0.25rem;
+    }
+
+    /* Indicators */
+    .carousel-indicators {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 0.45rem;
+      margin-top: 0.75rem;
+    }
+
+    .indicator-dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 4px;
+      background: rgba(255, 255, 255, 0.2);
+      border: none;
+      cursor: pointer;
+      padding: 0;
+      transition: width 0.3s ease, background 0.3s ease;
+    }
+
+    .indicator-dot.active {
+      width: 24px;
+      background: var(--nhc-mint);
+      box-shadow: 0 0 10px var(--nhc-mint);
     }
   }
 </style>

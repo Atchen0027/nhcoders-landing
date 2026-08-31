@@ -21,7 +21,7 @@ const base = import.meta.env.BASE_URL.replace(/\/$/, '');
         Proyectos web reales construidos a medida: paneles de administración ERP/CRM, plataformas con motores de reserva interactivos, tiendas online y landing pages de alto impacto.
       </p>
 
-      <!-- Category Filter Tabs -->
+      <!-- Category Filter Tabs (Desktop & Tablet) -->
       <div class="category-filters" role="tablist" aria-label="Filtrar proyectos web por categoría">
         {categories.map((cat, idx) => (
           <button
@@ -38,68 +38,95 @@ const base = import.meta.env.BASE_URL.replace(/\/$/, '');
       </div>
     </div>
 
-    <!-- Projects Grid -->
-    <div class="projects-grid">
-      {WEB_PROJECTS.map((project, index) => {
-        const imgSrc = `${base}${project.image}`;
-        return (
-          <article class={`web-project-card cyber-card reveal-on-scroll delay-${(index % 4) + 1}`} data-web-category={project.category}>
-            <div class="project-img-wrapper">
-              <img
-                src={imgSrc}
-                alt={`Captura del proyecto ${project.title}`}
-                class="project-img"
-                loading="lazy"
-              />
-              <div class="project-overlay">
-                <a
-                  href={project.demoUrl}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  class="btn btn-mint demo-overlay-btn"
-                >
-                  <span>Ver Demo en Vivo</span>
-                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
-                    <line x1="7" y1="17" x2="17" y2="7"></line>
-                    <polyline points="7 7 17 7 17 17"></polyline>
-                  </svg>
-                </a>
-              </div>
-            </div>
+    <!-- Projects Container (Desktop Grid & Mobile Swipeable Autopass Carousel) -->
+    <div class="projects-carousel-wrapper reveal-on-scroll delay-2">
+      <!-- Carousel Edge Peek Hints (Mobile only) -->
+      <button type="button" class="carousel-nav-btn prev-btn mobile-only" id="web-carousel-prev" aria-label="Ver proyecto anterior">
+        ‹
+      </button>
 
-            <div class="project-content">
-              <div class="project-header">
-                <span class="badge badge-mint project-cat">{project.categoryLabel}</span>
-                {project.featured && <span class="badge badge-pink">Destacado</span>}
-              </div>
-
-              <h3 class="project-title">{project.title}</h3>
-              <p class="project-desc">{project.description}</p>
-
-              <div class="project-tags">
-                {project.tags.map((tag) => (
-                  <span class="tag-pill">{tag}</span>
-                ))}
+      <div class="projects-grid" id="web-projects-container">
+        {WEB_PROJECTS.map((project, index) => {
+          const imgSrc = `${base}${project.image}`;
+          return (
+            <article
+              class={`web-project-card cyber-card reveal-on-scroll delay-${(index % 4) + 1}`}
+              data-web-category={project.category}
+              data-slide-index={index}
+            >
+              <div class="project-img-wrapper">
+                <img
+                  src={imgSrc}
+                  alt={`Captura del proyecto ${project.title}`}
+                  class="project-img"
+                  loading="lazy"
+                />
+                <div class="project-overlay">
+                  <a
+                    href={project.demoUrl}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    class="btn btn-mint demo-overlay-btn"
+                  >
+                    <span>Ver Demo en Vivo</span>
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                      <line x1="7" y1="17" x2="17" y2="7"></line>
+                      <polyline points="7 7 17 7 17 17"></polyline>
+                    </svg>
+                  </a>
+                </div>
               </div>
 
-              <div class="project-actions">
-                <a
-                  href={project.demoUrl}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  class="btn btn-secondary project-btn"
-                >
-                  <span>Explorar Proyecto</span>
-                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                    <line x1="5" y1="12" x2="19" y2="12"></line>
-                    <polyline points="12 5 19 12 12 19"></polyline>
-                  </svg>
-                </a>
+              <div class="project-content">
+                <div class="project-header">
+                  <span class="badge badge-mint project-cat">{project.categoryLabel}</span>
+                  {project.featured && <span class="badge badge-pink">Destacado</span>}
+                </div>
+
+                <h3 class="project-title">{project.title}</h3>
+                <p class="project-desc">{project.description}</p>
+
+                <div class="project-tags">
+                  {project.tags.map((tag) => (
+                    <span class="tag-pill">{tag}</span>
+                  ))}
+                </div>
+
+                <div class="project-actions">
+                  <a
+                    href={project.demoUrl}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    class="btn btn-secondary project-btn"
+                  >
+                    <span>Explorar Proyecto</span>
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                      <line x1="5" y1="12" x2="19" y2="12"></line>
+                      <polyline points="12 5 19 12 12 19"></polyline>
+                    </svg>
+                  </a>
+                </div>
               </div>
-            </div>
-          </article>
-        );
-      })}
+            </article>
+          );
+        })}
+      </div>
+
+      <button type="button" class="carousel-nav-btn next-btn mobile-only" id="web-carousel-next" aria-label="Ver siguiente proyecto">
+        ›
+      </button>
+    </div>
+
+    <!-- Mobile Carousel Indicators -->
+    <div class="carousel-indicators mobile-only" id="web-carousel-indicators">
+      {WEB_PROJECTS.map((_, idx) => (
+        <button
+          type="button"
+          class={`indicator-dot ${idx === 0 ? 'active' : ''}`}
+          data-indicator-index={idx}
+          aria-label={`Ir al proyecto web ${idx + 1}`}
+        ></button>
+      ))}
     </div>
   </div>
 </section>
@@ -130,6 +157,91 @@ const base = import.meta.env.BASE_URL.replace(/\/$/, '');
       });
     });
   });
+
+  // Mobile Web Carousel Autopass & Indicators
+  const webGrid = document.getElementById('web-projects-container');
+  const webDots = document.querySelectorAll<HTMLButtonElement>('#web-carousel-indicators .indicator-dot');
+  const webPrev = document.getElementById('web-carousel-prev');
+  const webNext = document.getElementById('web-carousel-next');
+
+  if (webGrid && webDots.length > 0) {
+    let autoPassInterval: number | null = null;
+    let isUserInteracting = false;
+
+    // Update active dot based on scroll
+    const updateWebDot = () => {
+      const scrollLeft = webGrid.scrollLeft;
+      const cardWidth = (webGrid.firstElementChild as HTMLElement)?.offsetWidth || 300;
+      const activeIdx = Math.round(scrollLeft / (cardWidth + 16));
+      
+      webDots.forEach((dot, idx) => {
+        dot.classList.toggle('active', idx === activeIdx);
+      });
+    };
+
+    webGrid.addEventListener('scroll', updateWebDot, { passive: true });
+
+    // Click on indicators
+    webDots.forEach((dot) => {
+      dot.addEventListener('click', () => {
+        const targetIdx = Number(dot.dataset.indicatorIndex);
+        const card = webGrid.children[targetIdx] as HTMLElement;
+        if (card) {
+          card.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'center' });
+        }
+      });
+    });
+
+    // Navigation arrows
+    webPrev?.addEventListener('click', () => {
+      const cardWidth = (webGrid.firstElementChild as HTMLElement)?.offsetWidth || 300;
+      webGrid.scrollBy({ left: -(cardWidth + 16), behavior: 'smooth' });
+    });
+
+    webNext?.addEventListener('click', () => {
+      const cardWidth = (webGrid.firstElementChild as HTMLElement)?.offsetWidth || 300;
+      webGrid.scrollBy({ left: cardWidth + 16, behavior: 'smooth' });
+    });
+
+    // Autopass functionality (only on mobile)
+    const startWebAutoPass = () => {
+      if (window.innerWidth <= 768 && !autoPassInterval) {
+        autoPassInterval = window.setInterval(() => {
+          if (!isUserInteracting) {
+            const maxScroll = webGrid.scrollWidth - webGrid.clientWidth;
+            const cardWidth = (webGrid.firstElementChild as HTMLElement)?.offsetWidth || 300;
+            
+            if (webGrid.scrollLeft >= maxScroll - 20) {
+              webGrid.scrollTo({ left: 0, behavior: 'smooth' });
+            } else {
+              webGrid.scrollBy({ left: cardWidth + 16, behavior: 'smooth' });
+            }
+          }
+        }, 4000);
+      }
+    };
+
+    const stopWebAutoPass = () => {
+      if (autoPassInterval) {
+        clearInterval(autoPassInterval);
+        autoPassInterval = null;
+      }
+    };
+
+    webGrid.addEventListener('touchstart', () => { isUserInteracting = true; }, { passive: true });
+    webGrid.addEventListener('touchend', () => {
+      setTimeout(() => { isUserInteracting = false; }, 3000);
+    }, { passive: true });
+
+    webGrid.addEventListener('mouseenter', () => { isUserInteracting = true; });
+    webGrid.addEventListener('mouseleave', () => { isUserInteracting = false; });
+
+    startWebAutoPass();
+    window.addEventListener('resize', () => {
+      if (window.innerWidth > 768) stopWebAutoPass();
+      else startWebAutoPass();
+    });
+  }
 </script>
 
 <style>
@@ -173,7 +285,7 @@ const base = import.meta.env.BASE_URL.replace(/\/$/, '');
     align-items: center;
     gap: 0.45rem;
     padding: 0.55rem 1.15rem;
-    background: #090f22;
+    background: rgba(9, 15, 34, 0.85);
     border: 1px solid var(--border-card);
     border-radius: var(--radius-full);
     color: var(--text-secondary);
@@ -205,7 +317,12 @@ const base = import.meta.env.BASE_URL.replace(/\/$/, '');
     font-weight: 800;
   }
 
-  /* Projects Grid */
+  /* Projects Desktop Grid */
+  .projects-carousel-wrapper {
+    position: relative;
+    width: 100%;
+  }
+
   .projects-grid {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
@@ -217,7 +334,9 @@ const base = import.meta.env.BASE_URL.replace(/\/$/, '');
     display: flex;
     flex-direction: column;
     overflow: hidden;
-    background: var(--bg-card);
+    background: rgba(10, 16, 36, 0.88);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
     border: 1px solid var(--border-card);
     border-radius: var(--radius-lg);
     transition: transform var(--transition-fast), border-color var(--transition-fast), box-shadow var(--transition-fast);
@@ -331,18 +450,105 @@ const base = import.meta.env.BASE_URL.replace(/\/$/, '');
     color: #ffffff;
   }
 
+  .mobile-only {
+    display: none;
+  }
+
+  /* Mobile Swipeable Carousel with Autopass & Peek indicators */
   @media (max-width: 768px) {
+    .mobile-only {
+      display: flex;
+    }
+
     .portfolio-section {
       padding: 3rem 0;
     }
 
+    .projects-carousel-wrapper {
+      margin: 0 -1rem;
+      padding: 0 1rem;
+    }
+
     .projects-grid {
-      grid-template-columns: 1fr;
-      gap: 1.25rem;
+      display: flex;
+      overflow-x: auto;
+      scroll-snap-type: x mandatory;
+      gap: 1rem;
+      padding: 0.5rem 0.5rem 1rem;
+      scroll-padding: 0 1.25rem;
+      -webkit-overflow-scrolling: touch;
+      scrollbar-width: none;
+    }
+
+    .projects-grid::-webkit-scrollbar {
+      display: none;
+    }
+
+    .web-project-card {
+      flex: 0 0 82vw;
+      max-width: 320px;
+      scroll-snap-align: center;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.6);
+      border: 1.5px solid var(--border-pink);
     }
 
     .project-content {
       padding: 1.25rem;
+    }
+
+    /* Carousel Nav Floating Buttons */
+    .carousel-nav-btn {
+      position: absolute;
+      top: 45%;
+      transform: translateY(-50%);
+      width: 34px;
+      height: 34px;
+      border-radius: 50%;
+      background: rgba(9, 15, 34, 0.92);
+      border: 1px solid var(--border-pink);
+      color: var(--nhc-pink-light);
+      font-size: 1.3rem;
+      font-weight: 800;
+      cursor: pointer;
+      align-items: center;
+      justify-content: center;
+      z-index: 10;
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.6);
+      backdrop-filter: blur(8px);
+    }
+
+    .prev-btn {
+      left: 0.25rem;
+    }
+
+    .next-btn {
+      right: 0.25rem;
+    }
+
+    /* Indicators */
+    .carousel-indicators {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 0.45rem;
+      margin-top: 0.75rem;
+    }
+
+    .indicator-dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 4px;
+      background: rgba(255, 255, 255, 0.2);
+      border: none;
+      cursor: pointer;
+      padding: 0;
+      transition: width 0.3s ease, background 0.3s ease;
+    }
+
+    .indicator-dot.active {
+      width: 24px;
+      background: var(--nhc-pink);
+      box-shadow: 0 0 10px var(--nhc-pink);
     }
   }
 </style>
