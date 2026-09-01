@@ -88,144 +88,14 @@ body {
   display: flex;
   flex-direction: column;
   background-color: var(--bg-primary);
+  background-image: 
+    radial-gradient(circle at 10% 10%, rgba(0, 245, 184, 0.06) 0%, transparent 40%),
+    radial-gradient(circle at 90% 30%, rgba(0, 210, 255, 0.05) 0%, transparent 40%),
+    radial-gradient(circle at 10% 70%, rgba(255, 0, 127, 0.05) 0%, transparent 40%),
+    radial-gradient(circle at 85% 90%, rgba(59, 130, 246, 0.05) 0%, transparent 40%);
   overflow-x: clip;
   width: 100%;
   max-width: 100%;
-}
-
-/* Dynamic Parallax Background Layers */
-.parallax-bg-fixed {
-  position: fixed;
-  top: -10vh;
-  left: 0;
-  width: 100vw;
-  height: 125vh;
-  background-image: var(--parallax-img);
-  background-size: cover;
-  background-position: center center;
-  background-repeat: no-repeat;
-  opacity: 0.65;
-  pointer-events: none;
-  z-index: 0;
-  transform: translateY(var(--parallax-bg-offset, 0px));
-  will-change: transform;
-}
-
-.bg-mesh-grid {
-  position: fixed;
-  inset: 0;
-  background-size: 48px 48px;
-  background-image: 
-    linear-gradient(to right, rgba(255, 255, 255, 0.02) 1px, transparent 1px),
-    linear-gradient(to bottom, rgba(255, 255, 255, 0.02) 1px, transparent 1px);
-  pointer-events: none;
-  z-index: 0;
-  transform: translateY(var(--parallax-grid, 0px));
-  will-change: transform;
-}
-
-/* Stacked Section Overlap Architecture (Layer Overlap Parallax Effect) */
-.parallax-section-layer {
-  position: relative;
-  width: 100%;
-  transition: transform var(--transition-normal);
-  overflow: hidden;
-}
-
-.layer-main {
-  z-index: 1;
-  background: rgba(4, 7, 17, 0.72);
-  backdrop-filter: blur(8px);
-  -webkit-backdrop-filter: blur(8px);
-  padding-bottom: 3rem;
-}
-
-.layer-android {
-  z-index: 2;
-  margin-top: -45px;
-  border-top-left-radius: var(--radius-xl);
-  border-top-right-radius: var(--radius-xl);
-  background: rgba(5, 10, 27, 0.88);
-  backdrop-filter: blur(14px);
-  -webkit-backdrop-filter: blur(14px);
-  border-top: 1.5px solid rgba(0, 245, 184, 0.45);
-  box-shadow: 0 -28px 70px rgba(0, 0, 0, 0.92), 0 -6px 25px rgba(0, 245, 184, 0.2);
-  padding-top: 2rem;
-  padding-bottom: 3rem;
-}
-
-.layer-portfolio {
-  z-index: 3;
-  margin-top: -45px;
-  border-top-left-radius: var(--radius-xl);
-  border-top-right-radius: var(--radius-xl);
-  background: rgba(7, 13, 36, 0.9);
-  backdrop-filter: blur(14px);
-  -webkit-backdrop-filter: blur(14px);
-  border-top: 1.5px solid rgba(255, 0, 127, 0.45);
-  box-shadow: 0 -28px 70px rgba(0, 0, 0, 0.92), 0 -6px 25px rgba(255, 0, 127, 0.2);
-  padding-top: 2rem;
-  padding-bottom: 3rem;
-}
-
-.layer-about-contact {
-  z-index: 4;
-  margin-top: -45px;
-  border-top-left-radius: var(--radius-xl);
-  border-top-right-radius: var(--radius-xl);
-  background: rgba(4, 6, 15, 0.94);
-  backdrop-filter: blur(16px);
-  -webkit-backdrop-filter: blur(16px);
-  border-top: 1.5px solid rgba(255, 255, 255, 0.15);
-  box-shadow: 0 -28px 70px rgba(0, 0, 0, 0.96), 0 -6px 25px rgba(59, 130, 246, 0.2);
-  padding-top: 2rem;
-}
-
-/* Floating Parallax Orbs */
-.parallax-floating-orb {
-  position: absolute;
-  border-radius: 50%;
-  pointer-events: none;
-  filter: blur(80px);
-  opacity: 0.45;
-  z-index: 0;
-  will-change: transform;
-}
-
-.orb-main {
-  width: 500px;
-  height: 400px;
-  top: 5%;
-  left: 10%;
-  background: radial-gradient(circle, rgba(0, 245, 184, 0.2) 0%, transparent 70%);
-  transform: translateY(var(--parallax-orb-1, 0px));
-}
-
-.orb-android {
-  width: 550px;
-  height: 450px;
-  top: 10%;
-  right: 5%;
-  background: radial-gradient(circle, rgba(0, 245, 184, 0.22) 0%, transparent 70%);
-  transform: translateY(var(--parallax-orb-2, 0px));
-}
-
-.orb-portfolio {
-  width: 550px;
-  height: 450px;
-  top: 15%;
-  left: 5%;
-  background: radial-gradient(circle, rgba(255, 0, 127, 0.18) 0%, transparent 70%);
-  transform: translateY(var(--parallax-orb-3, 0px));
-}
-
-.orb-contact {
-  width: 500px;
-  height: 400px;
-  bottom: 10%;
-  right: 10%;
-  background: radial-gradient(circle, rgba(59, 130, 246, 0.16) 0%, transparent 70%);
-  transform: translateY(var(--parallax-orb-4, 0px));
 }
 
 /* Typography */
@@ -456,24 +326,10 @@ img, svg {
   100% { transform: translateX(-50%); }
 }
 
-/* Scroll Reveal Animations */
+/* Scroll Visibility */
 .reveal-on-scroll {
-  opacity: 0;
-  transform: translateY(28px);
-  transition: opacity 0.7s var(--ease-spring), transform 0.7s var(--ease-spring);
-  will-change: opacity, transform;
-}
-
-.reveal-visible {
   opacity: 1;
-  transform: translateY(0);
 }
-
-/* Stagger delays */
-.delay-1 { transition-delay: 0.08s; }
-.delay-2 { transition-delay: 0.16s; }
-.delay-3 { transition-delay: 0.24s; }
-.delay-4 { transition-delay: 0.32s; }
 
 /* Custom Scrollbar */
 ::-webkit-scrollbar {
@@ -492,14 +348,6 @@ img, svg {
 }
 
 @media (max-width: 768px) {
-  .layer-android,
-  .layer-portfolio,
-  .layer-about-contact {
-    margin-top: -28px;
-    border-top-left-radius: 24px;
-    border-top-right-radius: 24px;
-  }
-
   .container {
     padding-left: 1rem;
     padding-right: 1rem;
